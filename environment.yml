@@ -1,0 +1,23 @@
+# Conda environment for impactcal-mx.
+# CLIMADA is conda-first; pip-only installs of the geo stack are fragile on macOS.
+# After first successful setup, freeze the exact solve:
+#   conda env export --no-builds > environment.lock.yml   (commit it — GEN-02/GEN-07)
+name: impactcal
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - climada                # pulls the geo stack (geopandas, rasterio, etc.)
+  - climada-petals         # TCSurgeBathtub, TCRain, RiverFlood, ImpfRiverFlood
+  - pymc>=5
+  - arviz
+  - xarray
+  - netcdf4
+  - pyarrow                # parquet for precomputed surfaces
+  - pytest
+  - ruff
+  - black
+  - pre-commit
+  - pip
+  - pip:
+      - -e .

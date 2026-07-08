@@ -1,0 +1,25 @@
+{
+  "effortLevel": "high",
+  "permissions": {
+    "allow": [
+      "Bash(pytest*)",
+      "Bash(ruff*)",
+      "Bash(black*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)"
+    ],
+    "ask": [
+      "Edit(context/**)",
+      "Edit(CLAUDE.md)",
+      "Bash(git commit*)",
+      "Bash(git push*)"
+    ],
+    "deny": [
+      "Edit(data/**)",
+      "Edit(results/**)",
+      "Read(.env*)",
+      "Bash(rm -rf*)"
+    ]
+  }
+}

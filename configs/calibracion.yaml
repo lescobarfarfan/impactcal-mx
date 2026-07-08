@@ -1,0 +1,32 @@
+# Parameters over hard-coding (CAL-GEN-06). Spanish identifiers verbatim (CAL-GEN-08).
+# Every run resolves this config into its manifest (CAL-GEN-05).
+
+proyecto:
+  nombre: impactcal-mx
+  # data_root: /Volumes/DISCO_EXTERNO/impactcal_data   # descomentar si los datos viven fuera del repo
+
+periodo:
+  anio_inicial: 2000        # CAL-TARGET-02: acotado por CENAPRED
+  anio_final: null          # null = último año completo disponible
+
+hazard:
+  timestep_horas: 1.0       # CAL-WIND-02: default Eberenz; sujeto a test de convergencia (OQ-CAL-01)
+  cuencas: [EP, NA]
+  ibtracs_provider: usa
+  dem_path: null            # ruta al .tif de elevación (registrar procedencia — OQ-CAL-05)
+  riverflood:
+    depth_nc: null          # .nc ISIMIP depth (OQ-CAL-06: registrar simulación exacta)
+    fraction_nc: null
+
+impacto:
+  v_thresh: 25.7            # m/s, FIJO — CAL-IMPF-01 [Emanuel2011][Eberenz2021]
+  scale: 1.0                # FIJO — CAL-IMPF-01
+  malla_v_half: {inicio: 30.0, fin: 120.0, paso: 2.0}     # superficie precomputada (CAL-BAYES-02)
+  malla_kappa: {inicio: 0.1, fin: 3.0, paso: 0.1}
+  curva_jrc: {region: NorthAmerica, sector: residential}  # CAL-IMPF-02 [Huizinga2017]
+
+deflactor:
+  indice: INPC              # CAL-TARGET-03, fuente INEGI
+  anio_base: null           # fijar al cerrar el panel
+
+semilla_base: 20260708

@@ -1,0 +1,29 @@
+# Data & results are reconstructed, never versioned (GEN-10)
+data/
+!data/.gitkeep
+results/
+!results/manifests/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Obsidian workspace state (machine-local; config that matters is documented in OBSIDIAN_SETUP.md)
+.obsidian/workspace*.json
+.obsidian/app.json
+.obsidian/appearance.json
+.obsidian/core-plugins*.json
+
+# Claude Code machine-local settings
+.claude/settings.local.json
+
+# macOS
+.DS_Store
