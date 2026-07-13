@@ -10,6 +10,8 @@ Session deliverables: `CAL-XWALK-03/04` (crosswalk v0, loss-side), `CAL-TARGET-0
 
 **[GelmanHill2007] (measurement/assignment error discussion)** — challenges `CAL-XWALK-04`: the date-window proxy misclassifies rain events between `ciclonica` and `fluvial`; think of `familia_asignada` v0 as a noisy label whose misclassification rate the v1 rain cone ($P_{\text{acc}}$ above threshold, `CAL-XWALK-01`) will estimate — the 220 `mixta_flag` year-states bound that error from above.
 
+**[Eberenz2021] §2.1/appendix (hourly track interpolation for global calibration)** — context for the superseded `CAL-WIND-02` (0.5 h frozen, [[timestep-convergence-test]]): their 1 h interpolation serves a country-event grain; our test shows 1 h undersamples the per-cell max-wind swath at the state grain (Patricia: Nayarit at 17% of reference) — confirm their setup implies nothing against a finer $\Delta t$, and cite the contrast when defending the subnational deviation in the manuscript.
+
 ## Related
 [[CAL_MOC]] · [[DECISIONS]] · [[OPEN_QUESTIONS]] · Home: [[_INDEX]]
 #arm/cal #type/reading
