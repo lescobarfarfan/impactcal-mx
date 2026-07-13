@@ -36,6 +36,19 @@ fuentes_externas:
   cenapred_consolidados: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CENAPRED/consolidados
   ibtracs_crudos: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_IBTrACS/crudos
 
+timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.4
+  eventos:                  # SIDs resueltos del índice IBTrACS congelado
+    - {nombre: Wilma, sid: "2005289N18282"}
+    - {nombre: Odile, sid: "2014253N13260"}
+    - {nombre: Patricia, sid: "2015293N13266"}
+    - {nombre: Willa, sid: "2018292N14261"}
+  timesteps_horas: [0.25, 0.5, 1.0, 3.0]    # el más fino = referencia de convergencia
+  resoluciones_arcsec: [150, 300]           # interacción timestep × resolución (§3.4.4)
+  exposicion: litpop        # litpop (hazard sobre centroides de exposición) | uniforme (malla regular)
+  bbox: {lat_min: 14.0, lat_max: 33.0, lon_min: -118.0, lon_max: -86.0}   # malla si exposicion=uniforme
+  ref_v_half: 74.7          # referencia FIJA (default Emanuel-USA de CLIMADA); solo convergencia,
+                            # nunca magnitud — la función calibrada llega después (CAL-IMPF-01)
+
 crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v0 lado-pérdidas (OQ-CAL-02)
   version: v0.1-nombres-fechas
   subtipos_ciclonicos: [CT, MT, MF]   # ciclón tropical, marea de tormenta, mar de fondo
