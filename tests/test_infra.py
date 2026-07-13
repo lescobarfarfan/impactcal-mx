@@ -5,7 +5,7 @@ import json
 import numpy as np
 import pytest
 
-from impactcal.infra import ProjectPaths, RunManifest, set_seed, get_rng
+from impactcal.infra import ProjectPaths, RunManifest, get_rng, set_seed
 from impactcal.infra.provenance import verify_provenance, write_provenance
 
 
