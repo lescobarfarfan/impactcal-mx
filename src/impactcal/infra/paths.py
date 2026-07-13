@@ -40,7 +40,3 @@ class ProjectPaths:
     @property
     def manifests(self) -> Path:
         return self.results / "manifests"
-
-    def hazard(self, name: str) -> Path:
-        """data/<hazard>/{crudos,consolidados} convention (DC-CONV-1)."""
-        return self.data / name

@@ -119,17 +119,6 @@ _NUMERAL_ES_EN = {
     "VEINTE": "TWENTY",
 }
 
-_COLUMNAS_XWALK = [
-    "anio",
-    "cve_ent",
-    "sids_viento",
-    "sids_cono_lluvia",
-    "familia_asignada",
-    "flag_revision",
-    "regla_aplicada",
-    "version_crosswalk",
-]
-
 
 def _sin_acentos(texto: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFKD", texto) if not unicodedata.combining(c))
@@ -333,7 +322,7 @@ def build_crosswalk(
             }
         )
 
-    xwalk = pd.DataFrame(filas, columns=_COLUMNAS_XWALK).sort_values(["anio", "cve_ent"])
+    xwalk = pd.DataFrame(filas).sort_values(["anio", "cve_ent"])
     xwalk = xwalk.reset_index(drop=True)
 
     resumen = {

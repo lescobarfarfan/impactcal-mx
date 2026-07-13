@@ -10,13 +10,11 @@ requires-python = ">=3.10"
 dependencies = [
   "numpy",
   "pandas",
-  "geopandas",
-  "xarray",
   "pyyaml",
 ]
 
 [project.optional-dependencies]
-climada = ["climada", "climada-petals"]   # heavy stack; install via conda env (environment.yml) in practice
+climada = ["climada", "climada-petals", "geopandas"]   # heavy stack; install via conda env (environment.yml) in practice
 bayes = ["pymc", "arviz"]
 dev = ["pytest", "ruff", "black", "pre-commit"]
 
