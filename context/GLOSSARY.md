@@ -69,6 +69,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | Pluvial gap | **pluvial urbano drenaje CDMX fuera de alcance CHIRPS piloto** |
 | The canonical output | **parametros_impacto_estatal.csv construir_impfset reconstructor never pickles** |
 | Merge with climateCCR | **CAL prefix HAZ-CLIMADA import crosswalk parameter table interface OQ-CAL-12** |
+| The YAGNI discipline | **YAGNI minimal one-line simplest stdlib no speculative abstraction ponytail audit** |
 
 ---
 
