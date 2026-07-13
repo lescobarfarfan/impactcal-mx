@@ -29,4 +29,18 @@ deflactor:
   indice: INPC              # CAL-TARGET-03, fuente INEGI
   anio_base: null           # fijar al cerrar el panel
 
+fuentes_externas:
+  # Rutas máquina-local a insumos producidos en el repo climateCCR. La ingesta los congela en
+  # data/<fuente>/ con procedencia (CAL-GEN-02); la calibración solo lee las copias congeladas
+  # (CAL-GEN-12). Cobertura CENAPRED machine-readable hoy: 2000-2015 (capturas 2016+ pendientes).
+  cenapred_consolidados: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CENAPRED/consolidados
+  ibtracs_crudos: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_IBTrACS/crudos
+
+crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v0 lado-pérdidas (OQ-CAL-02)
+  version: v0.1-nombres-fechas
+  subtipos_ciclonicos: [CT, MT, MF]   # ciclón tropical, marea de tormenta, mar de fondo
+  subtipos_fluviales: [LLUV, INUND]   # daños por lluvia, inundación
+  buffer_dias: 3                      # ventana evento↔tormenta para el empate por fechas
+  bbox_mexico: {lat_min: 12.0, lat_max: 35.0, lon_min: -120.0, lon_max: -84.0}
+
 semilla_base: 20260708
