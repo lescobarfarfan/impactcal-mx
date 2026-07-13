@@ -55,7 +55,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | Hazard consistency decision | **CLIMADA autocontenido v_half absorbs wind-model bias no transferable** |
 | The calibration unit | **año estado anual agregado multi-storm ambiguity EM-DAT overlap** |
 | The deflator decision | **INPC INEGI pesos constantes deflactor GDP rejected FIX Banxico** |
-| Timestep decision + anomaly | **timestep convergencia 1h Eberenz finer timestep lower losses frozen** |
+| Timestep decision + anomaly | **timestep 0.5h congelado convergencia submuestreo swath Patricia Nayarit finer timestep lower losses explicado** |
 | The functional form | **from_emanuel_usa v_thresh 25.7 fixed scale 1 single free v_half identifiability** |
 | Depth-damage scaling | **JRC NorthAmerica residential kappa MDD multiplicative scalar clipped** |
 | The hierarchical model | **partial pooling log v_half regional groups hyperprior Eberenz NA anchor lognormal likelihood** |

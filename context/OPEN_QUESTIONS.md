@@ -5,8 +5,8 @@ IDs `OQ-CAL-NN`; gating items first.
 
 ## Gating (block the next deliverable)
 
-- `OQ-CAL-01` **Timestep convergence test** (`CAL-WIND-02`; protocol in master doc §3.4). Includes explaining the observed finer-timestep → lower-losses effect (check the timestep × centroid-resolution interaction; cf. the CDMX 0.5° discretization artifact in the origin project). Hazards cannot be frozen until this closes.
-- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). **Blocked on `OQ-CAL-01`** (needs frozen hazards).
+- `OQ-CAL-15` **Hazard-freeze checklist** (`CAL-HAZ-SHARED-01`, `CAL-GEN-12`): re-confirm 0.5 h vs 0.25 h on the definitive grid (LitPop centroids, `CAL-WIND-02`); pin the cached `IBTrACS.ALL.v04r01.nc` with `_procedencia.json` (today unpinned, dated 2025-08-22 — refresh or freeze as-is, documented); DEM (`OQ-CAL-05`) and ISIMIP (`OQ-CAL-06`) provenance before surge/RF generation.
+- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). **Blocked on the hazard freeze** (`OQ-CAL-01` closed 2026-07-12 → `CAL-WIND-02`; checklist `OQ-CAL-15`).
 
 ## Modelling
 

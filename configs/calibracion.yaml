@@ -10,7 +10,7 @@ periodo:
   anio_final: null          # null = último año completo disponible
 
 hazard:
-  timestep_horas: 1.0       # CAL-WIND-02: default Eberenz; sujeto a test de convergencia (OQ-CAL-01)
+  timestep_horas: 0.5       # CAL-WIND-02 (superseded 2026-07-12): congelado por test de convergencia
   cuencas: [EP, NA]
   ibtracs_provider: usa
   dem_path: null            # ruta al .tif de elevación (registrar procedencia — OQ-CAL-05)
