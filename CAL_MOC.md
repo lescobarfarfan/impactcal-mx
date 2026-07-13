@@ -6,7 +6,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[Calibracion_Impacto_Mexico_Master]] — the master design doc (decisions D1–D13, formulas, flujo, referencias, limitaciones, secuencia).
 
 ## Pipelines
-*(empty — notes land here as modules get built: hazard freeze, crosswalk, surfaces, PyMC model)*
+- [[timestep-convergence-test]] — test de convergencia de timestep (`OQ-CAL-01`): 1 h no converge a grano estatal; recomendación 0.5 h.
 
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.
