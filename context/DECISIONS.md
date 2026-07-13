@@ -31,6 +31,7 @@ keys resolve in `REFERENCES.md`. ID scheme in `00_README_CONTEXT.md` §3.
 - `CAL-GEN-10` [2026-07-08] Claude Code is the primary working interface; this canon is its memory. Root `CLAUDE.md` restates load-bearing rules and is read each session; auto memory is not relied upon for project decisions. Canon edits happen through the `/digest` (or `/compact-canon`) flow with the diff shown first. [eng]
 - `CAL-GEN-11` [2026-07-08] Amounts held in **current MXN** at source; deflation to constant MXN via **INEGI INPC** is a documented downstream step (`CAL-TARGET-03`). [eng]
 - `CAL-GEN-12` [2026-07-08] Calibration runs **only against frozen inputs**: hazards persisted to HDF5 with provenance, exposures and target tables versioned by hash. Nothing regenerates on the fly inside a calibration. [eng]
+- `CAL-GEN-13` [2026-07-12] Development follows **YAGNI**: the minimal implementation that works — one-line solutions where possible; stdlib/native before custom code; no speculative abstractions, placeholder modules, or config without a present consumer. Complexity enters only when a concrete need pulls it in; audited periodically with `/ponytail-audit`. [eng]
 
 ## CAL-SCOPE — Alcance
 

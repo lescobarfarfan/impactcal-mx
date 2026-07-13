@@ -62,6 +62,10 @@ graph**: wikilinks by basename (`[[DECISIONS]]`, `[[CAL_MOC]]`); every note ends
 
 ## Code standards
 
+- **YAGNI (`CAL-GEN-13`):** always the minimal implementation that works — one-line solutions
+  where possible; stdlib/native before custom code; no speculative abstractions, placeholder
+  modules, or unused config. When in doubt, do less: complexity must be justified by a present,
+  concrete consumer, never added ahead of one.
 - Python: PEP 8 + Google Python Style Guide; type hints on public APIs.
 - `ruff` (E/F/I/UP/B, `--fix`) + `black` (line length 100); both clean before commit.
 - Tests: `pytest` units per module; the infra layer stays green (`tests/test_infra.py`); each new
