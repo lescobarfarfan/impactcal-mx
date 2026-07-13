@@ -44,6 +44,8 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 - **ISIMIP / CaMa-Flood** — inter-sectoral impact model project / global flood model; source of RF NetCDFs.
 - **GloFAS** — Global Flood Awareness System (CDS); fase-2 fluvial refinement.
 - **`_procedencia.json`** — per-artifact provenance sidecar (`CAL-GEN-02`).
+- **Consolidados CENAPRED** — the four frozen outputs of the climateCCR pipeline (panel año×estado×peril, eventos, multiestado, catálogo); the CENAPRED interface of this repo (`CAL-TARGET-04`), 2000–2015.
+- **`freeze_copy`** — `impactcal.infra.freeze`: idempotent copy of external inputs into `data/<fuente>/` with sha256 verification + provenance sidecar (`CAL-GEN-02/12`).
 
 ## J. Content-word retrieval index
 
@@ -61,6 +63,8 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | Multi-peril combination | **union of damage 1 minus product fractions HAZUS shared centroids double counting** |
 | Identifiability of the split | **asymmetric priors wind free water anchored event signatures posterior correlation** |
 | The crosswalk rules | **crosswalk año estado SID cono lluvia familia asignada flag revision** |
+| Crosswalk v0 matching | **v0 nombres fechas empate CENAPRED IBTrACS ventana buffer mixta_flag typo Julette candidatos multiples** |
+| The frozen ingestion | **ingesta congelada freeze_copy consolidados climateCCR sha256 procedencia fuentes_externas** |
 | Inland cyclone losses | **CDMX remanentes ciclónicos inundación peril CNSF interior states** |
 | Pluvial gap | **pluvial urbano drenaje CDMX fuera de alcance CHIRPS piloto** |
 | The canonical output | **parametros_impacto_estatal.csv construir_impfset reconstructor never pickles** |

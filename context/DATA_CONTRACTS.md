@@ -20,13 +20,13 @@ conventions `DC-CONV-*`; joins `DC-XWALK-*`.
 ## DC-CAL-TARGET — Loss tables
 
 - `DC-CAL-TARGET-1` **Ruta A (insured):** `perdidas_aseguradas_anual.csv` — grain año×estado×familia_peril; columns `anio, cve_ent, familia_peril {ciclonica|fluvial}, monto_pagado_mxn_corr, monto_pagado_mxn_{base}, n_registros`. Source: CNSF pipeline (`MONTO PAGADO`). `PROPOSED` (schema; confirm against pipeline output)
-- `DC-CAL-TARGET-2` **Ruta B (total):** `perdidas_totales_anual.csv` — same grain/keys from CENAPRED Impacto Socioeconómico; `monto_total_mxn_corr, monto_total_mxn_{base}, fuente_publicacion`. Blocked on the CENAPRED scraper. `TBD`
+- `DC-CAL-TARGET-2` **Ruta B (total):** `perdidas_totales_anual.csv` — same grain/keys from CENAPRED Impacto Socioeconómico; `monto_total_mxn_corr, monto_total_mxn_{base}, fuente_publicacion`. Source unblocked: consolidados frozen in `data/cenapred/consolidados/` (2000–2015, `CAL-TARGET-04`); table build pending; 2016+ = `OQ-CAL-14`. `PROPOSED`
 - `DC-CAL-TARGET-3` **Sumas aseguradas:** `sumas_aseguradas_anual.csv` — grain año×estado; `anio, cve_ent, suma_asegurada_mxn_corr`. `PROPOSED`
 - `DC-CAL-TARGET-4` **Calibration matrix** (what `calibrate`/`bayes` consume): wide DataFrame rows=`anio`, columns=`cve_ent`, values=loss in constant MXN; one per (ruta, familia_peril); accompanied by an inclusion-mask matrix from `DC-XWALK-1` flags. `FIRM` (shape required by `climada.util.calibrate`)
 
 ## DC-XWALK — Crosswalk
 
-- `DC-XWALK-1` `crosswalk_anio_estado_tormentas.csv` — grain año×estado; columns `anio, cve_ent, sids_viento (lista IBTrACS SID, ';'-sep), sids_cono_lluvia, familia_asignada {ciclonica|fluvial|mixta_flag}, flag_revision, regla_aplicada, version_crosswalk`. Rules `CAL-XWALK-01/02`. **Next deliverable.** `PROPOSED`
+- `DC-XWALK-1` `crosswalk_anio_estado_tormentas.csv` — grain año×estado; columns `anio, cve_ent, sids_viento (lista IBTrACS SID, ';'-sep), sids_cono_lluvia, familia_asignada {ciclonica|fluvial|mixta_flag}, flag_revision, regla_aplicada, version_crosswalk`. Rules `CAL-XWALK-01/02`; **v0 delivered** (`CAL-XWALK-03/04`, `data/crosswalk/`; `sids_cono_lluvia` empty until v1). Companion audit table `eventos_sid_match.csv` (evento_id, nombre_extraido, metodo_match, sids, flag_evento). `FIRM` (schema) / v1 semantics pending (`OQ-CAL-02`)
 
 ## DC-CAL-EXP — Exposures
 

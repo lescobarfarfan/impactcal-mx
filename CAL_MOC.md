@@ -9,7 +9,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 *(empty — notes land here as modules get built: hazard freeze, crosswalk, surfaces, PyMC model)*
 
 ## Reading logs
-*(empty — `/digest` writes `notes/reading/YYYY-MM-DD_<slug>.md` each session)*
+- [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.
 
 ## Canon shortcuts
 [[DECISIONS]] · [[DATA_CONTRACTS]] · [[OPEN_QUESTIONS]]

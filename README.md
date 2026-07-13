@@ -54,8 +54,9 @@ Bulk data outside the repo? `export IMPACTCAL_DATA_ROOT=/path/to/data` (see `CAL
 
 ## Status & next steps
 
-Sequence (master doc §10): **1. crosswalk** (`OQ-CAL-02`, blocked on the CENAPRED scraper) →
-2. timestep convergence test (`OQ-CAL-01`) → freeze hazards → 3. exposures → 4. target tables →
+Sequence (master doc §10): **1. crosswalk ✅ v0** (loss-side, `CAL-XWALK-03/04`; hazard-side v1 =
+`OQ-CAL-02`, blocked on `OQ-CAL-01`) → **2. timestep convergence test** (`OQ-CAL-01`, ← current) →
+freeze hazards → 3. exposures → 4. target tables (source frozen, `CAL-TARGET-04`) →
 5. national null model (`climada.util.calibrate`) → 6. precomputed surfaces → PyMC hierarchical
 (wind) → 7. multi-peril joint → 8. fluvial → 9. validation → export.
 
