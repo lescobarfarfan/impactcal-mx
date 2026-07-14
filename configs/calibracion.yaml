@@ -13,9 +13,9 @@ hazard:
   timestep_horas: 0.5       # CAL-WIND-02 (superseded 2026-07-12): congelado por test de convergencia
   cuencas: [EP, NA]
   ibtracs_provider: usa
-  dem_path: null            # ruta al .tif de elevación (registrar procedencia — OQ-CAL-05)
+  dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (OQ-CAL-05)
   riverflood:
-    depth_nc: null          # .nc ISIMIP depth (OQ-CAL-06: registrar simulación exacta)
+    depth_nc: null          # sin insumo histórico: los .nc en mano son ISIMIP2b RCP 2006-2100 (OQ-CAL-06)
     fraction_nc: null
 
 impacto:
@@ -35,6 +35,10 @@ fuentes_externas:
   # (CAL-GEN-12). Cobertura CENAPRED machine-readable hoy: 2000-2015 (capturas 2016+ pendientes).
   cenapred_consolidados: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CENAPRED/consolidados
   ibtracs_crudos: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_IBTrACS/crudos
+  ibtracs_nc: ~/climada/data/IBTrACS.ALL.v04r01.nc   # caché CLIMADA, congelado tal cual (date_created interno 2025-08-22)
+  dem_mexico: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/Raster_Topografia/SRTM15+V2_Mexico.tif
+  dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: solo su sha256 en la procedencia del recorte, no se copia
+  isimip_dir: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares   # .nc ISIMIP2b RCP: pin en sitio, no se copian a data/
 
 timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.4
   eventos:                  # SIDs resueltos del índice IBTrACS congelado

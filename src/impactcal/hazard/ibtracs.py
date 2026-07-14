@@ -3,8 +3,10 @@
 Freezes the raw basin CSVs (EP + NA) already downloaded in the climateCCR repo
 into `data/ibtracs/crudos/` (CAL-GEN-02/12), and builds a per-storm index
 (SID, SEASON, NAME, date span, near-Mexico flag) consumed by the crosswalk
-(DC-XWALK-1). Wind-field generation itself (`TCTracks`/`TropCyclone`) is a
-separate step, gated on the timestep convergence test (OQ-CAL-01).
+(DC-XWALK-1). Also freezes the CLIMADA-cached `IBTrACS.ALL.v04r01.nc` (the
+file `TCTracks.from_ibtracs_netcdf` reads) as-is into the same directory,
+recording its internal `date_created` (OQ-CAL-15). Wind-field generation
+itself (`TCTracks`/`TropCyclone`) is a separate step.
 
 CLI::
 
@@ -28,7 +30,16 @@ CRUDOS = (
     "ibtracs.NA.list.v04r01.csv",
 )
 
+NC_CACHE = "IBTrACS.ALL.v04r01.nc"
+
 _FUENTE = "NOAA NCEI IBTrACS v04r01, cuencas EP+NA [Knapp2010][IBTrACSv04r01]"
+
+_FUENTE_NC = (
+    "NOAA NCEI IBTrACS v04r01, caché CLIMADA de TCTracks.from_ibtracs_netcdf "
+    "[Knapp2010][IBTrACSv04r01]"
+)
+
+_NC_ATTRS = ("product_version", "date_created", "time_coverage_end", "metadata_link")
 
 _USECOLS = ["SID", "SEASON", "NAME", "ISO_TIME", "LAT", "LON", "TRACK_TYPE"]
 
@@ -40,9 +51,18 @@ def ingest_ibtracs(source_dir: Path, dest_dir: Path, *, force: bool = False) -> 
     ]
 
 
+def ingest_ibtracs_nc(nc_src: Path, dest_dir: Path, *, force: bool = False) -> Path:
+    """Freeze the CLIMADA-cached IBTrACS netCDF as-is, pinning its internal date."""
+    import xarray as xr
+
+    attrs = xr.open_dataset(nc_src).attrs
+    extra = {k: str(attrs[k]) for k in _NC_ATTRS if k in attrs}
+    return freeze_copy(nc_src, dest_dir, source=_FUENTE_NC, force=force, **extra)
+
+
 def verify_ibtracs(dest_dir: Path) -> dict[str, bool]:
-    """Checksum verification of the frozen raw CSVs (no copying)."""
-    return {nombre: verify_provenance(dest_dir / nombre) for nombre in CRUDOS}
+    """Checksum verification of the frozen raw files (no copying)."""
+    return {nombre: verify_provenance(dest_dir / nombre) for nombre in (*CRUDOS, NC_CACHE)}
 
 
 def load_storm_index(
@@ -116,6 +136,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if all(estado.values()) else 1
 
     frozen = ingest_ibtracs(source_dir, dest_dir, force=args.forzar)
+    nc_src = Path(config["fuentes_externas"]["ibtracs_nc"]).expanduser()
+    frozen.append(ingest_ibtracs_nc(nc_src, dest_dir, force=args.forzar))
     for p in frozen:
         print(f"congelado: {p}")
     return 0
