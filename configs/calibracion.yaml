@@ -18,6 +18,11 @@ hazard:
     depth_nc: null          # elegir en /digest entre los ISIMIP2a congelados en data/isimip/ (protección none|flopros)
     fraction_nc: null
 
+exposure:                   # CAL-EXP-01/03 (ruta B); resolución a ratificar en /digest
+  resolucion_arcsec: 150    # 150 as ≈ 4.6 km: timestep test mostró 150≈300 en viento; surge pide fino
+  anio_referencia: 2018     # default LitPop [Eberenz2020LitPop]
+  fin_mode: pc              # produced capital, default LitPop
+
 impacto:
   v_thresh: 25.7            # m/s, FIJO — CAL-IMPF-01 [Emanuel2011][Eberenz2021]
   scale: 1.0                # FIJO — CAL-IMPF-01
@@ -40,6 +45,7 @@ fuentes_externas:
   dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: solo su sha256 en la procedencia del recorte, no se copia
   isimip_dir: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares   # .nc ISIMIP2b RCP: pin en sitio, no se copian a data/
   isimip_hist: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_ISIMIP/crudos   # ISIMIP2a histórico (gswp3, 1971-2010): se congela en data/isimip/
+  marco_geoestadistico: /Users/lescobarfarfan/Documents/projects/catalogos/mapas/INEGI/nacional   # 00ent.* (entidades); se congela en data/marco_geoestadistico/
 
 timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.4
   eventos:                  # SIDs resueltos del índice IBTrACS congelado
