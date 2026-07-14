@@ -5,8 +5,7 @@ IDs `OQ-CAL-NN`; gating items first.
 
 ## Gating (block the next deliverable)
 
-- `OQ-CAL-15` **Hazard-freeze checklist** (`CAL-HAZ-SHARED-01`, `CAL-GEN-12`): re-confirm 0.5 h vs 0.25 h on the definitive grid (LitPop centroids, `CAL-WIND-02`); pin the cached `IBTrACS.ALL.v04r01.nc` with `_procedencia.json` (today unpinned, dated 2025-08-22 — refresh or freeze as-is, documented); DEM (`OQ-CAL-05`) and ISIMIP (`OQ-CAL-06`) provenance before surge/RF generation.
-- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). **Blocked on the hazard freeze** (`OQ-CAL-01` closed 2026-07-12 → `CAL-WIND-02`; checklist `OQ-CAL-15`).
+- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). Freeze inputs ready (`OQ-CAL-15` closed 2026-07-14): **now blocked only on generating the frozen hazards themselves** (`haz_tc.h5`, `haz_rain.h5` on the definitive grid, `CAL-EXP-04`).
 
 ## Modelling
 
@@ -15,13 +14,14 @@ IDs `OQ-CAL-NN`; gating items first.
 - `OQ-CAL-07` **Zeros / deductible censoring** in the likelihood (`CAL-BAYES-03`): hurdle vs left-censoring; ruta A deductible floor per line of business?
 - `OQ-CAL-09` **Regional grouping g(s)** for hyperpriors (`CAL-BAYES-03`): confirm the 5-group proposal (Pacífico Sur / Pacífico Norte-BC / Golfo / Yucatán / Interior) against track climatology; document assignment table.
 - `OQ-CAL-10` **Joint multi-peril surface** (`CAL-BAYES-02`): coarse-grid resolution for `(v_half, κ_surge, κ_rain)`; refinement strategy after the exploratory run.
+- `OQ-CAL-16` **RF protection level** (`CAL-RF-02`): `none` vs `flopros` in the likelihood — both variants frozen; decide with data (flopros = real protection standards, but coarse for Mexico; the equivalent choice exists in `rf_glofas` output, so it applies uniformly to both segments).
+- `OQ-CAL-17` **GloFAS footprint pipeline + segment consistency** (`CAL-RF-03`): compute 2011–2015 footprints with petals `rf_glofas` (setup: JRC hazard maps + FLOPROS + Gumbel fits); before mixing ISIMIP2a (2000–2010) and GloFAS (2011–2015) segments in one likelihood, run the consistency check on overlap years (both available 1979–2010).
 
 ## Data & provenance
 
-- `OQ-CAL-05` **DEM provenance**: identify the in-hand elevation `.tif` (SRTM15+ V2.0? resolution? processing?) and write its `_procedencia.json` before `CAL-SURGE-01` runs.
-- `OQ-CAL-06` **ISIMIP flood files provenance**: exact simulation round, GHM, GCM forcing, scenario of the in-hand depth/fraction `.nc`; write provenance (`CAL-RF-01`).
 - `OQ-CAL-11` **CNSF sums-insured availability**: confirm sumas aseguradas per state-year are extractable at the needed grain from the existing pipeline (`DC-CAL-TARGET-3`); else define ruta A exposure fallback.
 - `OQ-CAL-14` **CENAPRED panel 2016–2023**: the frozen machine-readable series ends in 2015 (`CAL-TARGET-04`); the structured captures of the extenso PDFs (protocol in climateCCR `cenapred.md` §6bis, PDFs already in hand) must be done upstream and re-ingested to cover the full `CAL-TARGET-02` period; 2024 = only real gap (extenso unpublished).
+- `OQ-CAL-18` **Marco Geoestadístico edition** (`CAL-EXP-04`, `DC-CONV-5`): the local `00ent` shapefile carries no version metadata — identify the INEGI MG edition (year) and record it in the frozen provenance.
 
 ## References (§99)
 

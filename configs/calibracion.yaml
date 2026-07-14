@@ -13,10 +13,15 @@ hazard:
   timestep_horas: 0.5       # CAL-WIND-02 (superseded 2026-07-12): congelado por test de convergencia
   cuencas: [EP, NA]
   ibtracs_provider: usa
-  dem_path: null            # ruta al .tif de elevación (registrar procedencia — OQ-CAL-05)
+  dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (OQ-CAL-05)
   riverflood:
-    depth_nc: null          # .nc ISIMIP depth (OQ-CAL-06: registrar simulación exacta)
+    depth_nc: null          # elegir en /digest entre los ISIMIP2a congelados en data/isimip/ (protección none|flopros)
     fraction_nc: null
+
+exposure:                   # CAL-EXP-01/03 (ruta B); resolución a ratificar en /digest
+  resolucion_arcsec: 150    # 150 as ≈ 4.6 km: timestep test mostró 150≈300 en viento; surge pide fino
+  anio_referencia: 2018     # default LitPop [Eberenz2020LitPop]
+  fin_mode: pc              # produced capital, default LitPop
 
 impacto:
   v_thresh: 25.7            # m/s, FIJO — CAL-IMPF-01 [Emanuel2011][Eberenz2021]
@@ -35,6 +40,12 @@ fuentes_externas:
   # (CAL-GEN-12). Cobertura CENAPRED machine-readable hoy: 2000-2015 (capturas 2016+ pendientes).
   cenapred_consolidados: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CENAPRED/consolidados
   ibtracs_crudos: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_IBTrACS/crudos
+  ibtracs_nc: ~/climada/data/IBTrACS.ALL.v04r01.nc   # caché CLIMADA, congelado tal cual (date_created interno 2025-08-22)
+  dem_mexico: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/Raster_Topografia/SRTM15+V2_Mexico.tif
+  dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: solo su sha256 en la procedencia del recorte, no se copia
+  isimip_dir: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares   # .nc ISIMIP2b RCP: pin en sitio, no se copian a data/
+  isimip_hist: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_ISIMIP/crudos   # ISIMIP2a histórico (gswp3, 1971-2010): se congela en data/isimip/
+  marco_geoestadistico: /Users/lescobarfarfan/Documents/projects/catalogos/mapas/INEGI/nacional   # 00ent.* (entidades); se congela en data/marco_geoestadistico/
 
 timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.4
   eventos:                  # SIDs resueltos del índice IBTrACS congelado
@@ -48,6 +59,13 @@ timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.
   bbox: {lat_min: 14.0, lat_max: 33.0, lon_min: -118.0, lon_max: -86.0}   # malla si exposicion=uniforme
   ref_v_half: 74.7          # referencia FIJA (default Emanuel-USA de CLIMADA); solo convergencia,
                             # nunca magnitud — la función calibrada llega después (CAL-IMPF-01)
+
+glofas:                     # CAL-RF-01 fase 2: descarga diaria GloFAS-ERA5 (EWDS) para años sin ISIMIP2a
+  anios: [2011, 2012, 2013, 2014, 2015]   # el panel RF con ISIMIP2a termina en 2010
+  system_version: version_4_0
+  hydrological_model: lisflood
+  product_type: consolidated
+  area: [33, -118, 14, -86]               # N, W, S, E — bbox hazard México
 
 crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v0 lado-pérdidas (OQ-CAL-02)
   version: v0.1-nombres-fechas
