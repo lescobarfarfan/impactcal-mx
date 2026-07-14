@@ -75,7 +75,12 @@ def test_freeze_inputs_end_to_end(tmp_path):
     import numpy as np
     import xarray as xr
 
-    from impactcal.hazard.freeze_inputs import freeze_dem, pin_isimip, verify_inputs
+    from impactcal.hazard.freeze_inputs import (
+        freeze_dem,
+        freeze_isimip_hist,
+        pin_isimip,
+        verify_inputs,
+    )
 
     origen = tmp_path / "origen"
     origen.mkdir()
@@ -89,6 +94,11 @@ def test_freeze_inputs_end_to_end(tmp_path):
         coords={"time": [np.datetime64("2006-07-02", "ns")]},
         attrs={"ensemble_name": "isimip2b", "scenario": "rcp26"},
     ).to_netcdf(nc)
+    hist = origen / "cama-flood_matsiro_gswp3_flddph_none_150arcsec.nc4"
+    xr.Dataset(
+        {"flddph": ("time", [0.0])},
+        coords={"time": [np.datetime64("1971-07-02", "ns")]},
+    ).to_netcdf(hist)
 
     dem_dest = freeze_dem(dem_mx, dem_global, tmp_path / "data" / "dem")
     assert verify_provenance(dem_dest)
@@ -96,7 +106,13 @@ def test_freeze_inputs_end_to_end(tmp_path):
 
     assert pin_isimip(origen) == [nc]
     assert _sidecar(nc)["scenario"] == "rcp26"
-    assert all(verify_inputs(dem_dest, origen).values())
+
+    isimip_dest = tmp_path / "data" / "isimip"
+    (frozen_hist,) = freeze_isimip_hist(origen, isimip_dest)
+    assert verify_provenance(frozen_hist)
+    assert _sidecar(frozen_hist)["cobertura_temporal"].startswith("1971")
+
+    assert all(verify_inputs(dem_dest, origen, isimip_dest).values())
 
     # Idempotent: the in-place pin is not rewritten on a second pass.
     antes = nc.with_name(nc.name + "._procedencia.json").stat().st_mtime_ns

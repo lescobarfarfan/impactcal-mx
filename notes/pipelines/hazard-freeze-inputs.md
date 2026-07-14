@@ -10,9 +10,15 @@
 
 **ISIMIP fluvial (`CAL-RF-01`).** Los 6 `.nc` en mano (`{26,60,85}_{flddph,fldfrc}_150arcsec_matsiro_hadgem2-es_0.nc`) pineados **en sitio** (sidecar junto a cada archivo, no copiados a `data/`): son **ISIMIP2b, escenarios RCP 2.6/6.0/8.5, 2006–2100, clima GCM (HadGEM2-ES) + GHM MATSIRO, CaMa-Flood 3.6.2**, generados con flood-processing de S. Willner (doi:10.5281/zenodo.1241051, `[Sauer2021-ref?]`).
 
-## Hallazgo (para `/digest`)
+## Hallazgo y resolución (para `/digest`)
 
-Los `.nc` ISIMIP en mano **no sirven para la calibración histórica**: son proyecciones RCP 2006–2100 con clima simulado por GCM — no cubren 2000–2005 y sus años no corresponden a años meteorológicos observados, así que no pueden emparejarse con pérdidas observadas año×estado (`CAL-TARGET-02`). El insumo RF de calibración requiere corridas con forzamiento observado (ISIMIP2a — p. ej. GSWP3/WATCH — del mismo dataset de Willner, o la vía GloFAS ya reservada como fase 2 en `CAL-RF-01`). Propuesta: nueva `OQ-CAL` "obtener footprints fluviales históricos"; los RCP pineados quedan para la aplicación prospectiva aguas abajo.
+Los `.nc` ISIMIP2b en mano **no sirven para la calibración histórica**: son proyecciones RCP 2006–2100 con clima simulado por GCM — no cubren 2000–2005 y sus años no corresponden a años meteorológicos observados, así que no pueden emparejarse con pérdidas observadas año×estado (`CAL-TARGET-02`). Quedan pineados para la aplicación prospectiva aguas abajo.
+
+**Resolución (2026-07-14):** descargados los footprints **ISIMIP2a con forzamiento observado** — `cama-flood_matsiro_gswp3_nobc_hist_nosoc_co2_{flddph,fldfrc}_{none,flopros}_150arcsec_global_annual_1971_2010.nc4` (ISIMIP Repository, DerivedOutputData/Zimmer2023, doi:10.48364/ISIMIP.303619; sha512 oficiales verificados, `SHA512SUMS.isimip` junto a los crudos) a `climateCCR/data/hazard_mx/datos_ISIMIP/crudos/`, congelados en `data/isimip/` vía `freeze_inputs`. GHM MATSIRO consistente con los RCP en mano; se bajaron ambas variantes de protección (`none` y `flopros`) — cuál entra en la likelihood es decisión pendiente. **Limitación residual:** ISIMIP2a termina en **2010** → el bloque RF solo calibra 2000–2010 del panel 2000–2015; cobertura completa requeriría la vía GloFAS/ERA5 (fase 2, `CAL-RF-01`). Propuestas para `/digest`: (i) decisión protección none vs flopros; (ii) decisión ventana RF 2000–2010 documentada o fase-2 GloFAS.
+
+## Años faltantes 2011–2015: vía GloFAS/ERA5 (fase 2 activada)
+
+Para los años del panel sin ISIMIP2a, el insumo es la **descarga fluvial diaria GloFAS-ERA5** (reanalysis 1979–presente, 0.05°, doi:10.24381/cds.a4fdd6b9), hoy servida por el **CEMS Early Warning Data Store** (EWDS — los datasets `cems-glofas-*` migraron ahí desde el CDS; el token ECMWF de `~/.cdsapirc` sirve para ambos). Descarga vía `impactcal.hazard.glofas` (config `glofas:`, 1 NetCDF/año 2011–2015, bbox México, procedencia con el request completo). Verificado end-to-end salvo la licencia **"CEMS-FLOODS datasets licence"** (aceptación manual en el portal EWDS). Los footprints se computarán después con `climada_petals.hazard.rf_glofas.RiverFloodInundation` (disponible en `climada_env`, petals 6.1.0), que produce `flood_depth` y `flood_depth_flopros` — las mismas dos variantes de protección que los ISIMIP2a congelados, así que la decisión none/flopros aplica pareja a ambos tramos. Consistencia ISIMIP2a↔GloFAS en años de traslape: pendiente de diseño (candidato a `OQ-CAL`).
 
 ## Estado del checklist `OQ-CAL-15`
 

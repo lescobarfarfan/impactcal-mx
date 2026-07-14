@@ -15,7 +15,7 @@ hazard:
   ibtracs_provider: usa
   dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (OQ-CAL-05)
   riverflood:
-    depth_nc: null          # sin insumo histórico: los .nc en mano son ISIMIP2b RCP 2006-2100 (OQ-CAL-06)
+    depth_nc: null          # elegir en /digest entre los ISIMIP2a congelados en data/isimip/ (protección none|flopros)
     fraction_nc: null
 
 impacto:
@@ -39,6 +39,7 @@ fuentes_externas:
   dem_mexico: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/Raster_Topografia/SRTM15+V2_Mexico.tif
   dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: solo su sha256 en la procedencia del recorte, no se copia
   isimip_dir: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares   # .nc ISIMIP2b RCP: pin en sitio, no se copian a data/
+  isimip_hist: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_ISIMIP/crudos   # ISIMIP2a histórico (gswp3, 1971-2010): se congela en data/isimip/
 
 timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.4
   eventos:                  # SIDs resueltos del índice IBTrACS congelado
@@ -52,6 +53,13 @@ timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.
   bbox: {lat_min: 14.0, lat_max: 33.0, lon_min: -118.0, lon_max: -86.0}   # malla si exposicion=uniforme
   ref_v_half: 74.7          # referencia FIJA (default Emanuel-USA de CLIMADA); solo convergencia,
                             # nunca magnitud — la función calibrada llega después (CAL-IMPF-01)
+
+glofas:                     # CAL-RF-01 fase 2: descarga diaria GloFAS-ERA5 (EWDS) para años sin ISIMIP2a
+  anios: [2011, 2012, 2013, 2014, 2015]   # el panel RF con ISIMIP2a termina en 2010
+  system_version: version_4_0
+  hydrological_model: lisflood
+  product_type: consolidated
+  area: [33, -118, 14, -86]               # N, W, S, E — bbox hazard México
 
 crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v0 lado-pérdidas (OQ-CAL-02)
   version: v0.1-nombres-fechas

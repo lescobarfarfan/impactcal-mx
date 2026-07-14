@@ -7,7 +7,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 
 ## Pipelines
 - [[timestep-convergence-test]] — test de convergencia de timestep (`OQ-CAL-01`): 1 h no converge a grano estatal; recomendación 0.5 h.
-- [[hazard-freeze-inputs]] — checklist `OQ-CAL-15`: IBTrACS netCDF + DEM congelados, ISIMIP pineado en sitio; hallazgo: los `.nc` en mano son RCP 2006–2100, sin insumo RF histórico.
+- [[hazard-freeze-inputs]] — checklist `OQ-CAL-15`: IBTrACS netCDF + DEM congelados, RCP pineados en sitio; insumo RF histórico resuelto con ISIMIP2a gswp3 1971–2010 (bloque RF calibra 2000–2010).
 
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.

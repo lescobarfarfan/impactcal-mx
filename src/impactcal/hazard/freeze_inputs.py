@@ -4,11 +4,14 @@ DEM: freezes the Mexico-clipped SRTM15+ V2 GeoTIFF (input of
 `TCSurgeBathtub.from_tc_winds`, CAL-SURGE-01) into `data/dem/`, recording the
 derivation chain (global raster sha256 + clip notebook) in its provenance.
 
-ISIMIP flood files: pinned **in place** (sidecar next to each `.nc`), not
-copied — the in-hand files are ISIMIP2b RCP projections (2006–2100, GCM
-weather), so they cannot serve the 2000–2015 observed-loss calibration
-(CAL-RF-01); the actual historical RF input is an open question. Pinning
-records exactly which files were evaluated.
+ISIMIP2b RCP flood files: pinned **in place** (sidecar next to each `.nc`),
+not copied — RCP projections (2006–2100, GCM weather) cannot serve the
+2000–2015 observed-loss calibration (CAL-RF-01); pinning records exactly
+which files were evaluated.
+
+ISIMIP2a historical flood files (observed GSWP3 forcing, 1971–2010; ISIMIP
+DerivedOutputData/Zimmer2023, doi:10.48364/ISIMIP.303619): **frozen** into
+`data/isimip/` — these are the actual RF calibration inputs (CAL-GEN-12).
 
 CLI::
 
@@ -57,6 +60,23 @@ _NOTA_ISIMIP = (
     "observados — insumo RF para la calibración histórica pendiente de decisión."
 )
 
+_FUENTE_ISIMIP2A = (
+    "Inundación fluvial ISIMIP2a, forzamiento observado, CaMa-Flood; ISIMIP "
+    "DerivedOutputData/Zimmer2023 (doi:10.48364/ISIMIP.303619) [Sauer2021-ref?]"
+)
+
+
+def _isimip_extra(nc: Path) -> dict[str, str]:
+    """Provenance extras read from a flood NetCDF's global attrs + time axis."""
+    import xarray as xr
+
+    ds = xr.open_dataset(nc)
+    extra = {k: str(ds.attrs[k]) for k in _ISIMIP_ATTRS if k in ds.attrs}
+    t = ds["time"].values
+    extra["cobertura_temporal"] = f"{t[0]}..{t[-1]}"
+    ds.close()
+    return extra
+
 
 def freeze_dem(
     dem_mx: Path, dem_global: Path | None, dest_dir: Path, *, force: bool = False
@@ -81,29 +101,45 @@ def isimip_files(isimip_dir: Path) -> list[Path]:
 
 
 def pin_isimip(isimip_dir: Path, *, force: bool = False) -> list[Path]:
-    """Write in-place provenance sidecars for the ISIMIP flood NetCDFs."""
-    import xarray as xr
-
+    """Write in-place provenance sidecars for the ISIMIP2b RCP flood NetCDFs."""
     pinned = []
     for nc in isimip_files(isimip_dir):
         if not force and verify_provenance(nc):
             pinned.append(nc)
             continue
-        ds = xr.open_dataset(nc)
-        extra = {k: str(ds.attrs[k]) for k in _ISIMIP_ATTRS if k in ds.attrs}
-        t = ds["time"].values
-        extra["cobertura_temporal"] = f"{t[0]}..{t[-1]}"
-        extra["nota"] = _NOTA_ISIMIP
-        ds.close()
-        write_provenance(nc, source=_FUENTE_ISIMIP, **extra)
+        write_provenance(nc, source=_FUENTE_ISIMIP, nota=_NOTA_ISIMIP, **_isimip_extra(nc))
         pinned.append(nc)
     return pinned
 
 
-def verify_inputs(dem_dest: Path, isimip_dir: Path) -> dict[str, bool]:
-    """Checksum verification of the frozen DEM and the in-place ISIMIP pins."""
+def isimip_hist_files(src_dir: Path) -> list[Path]:
+    """The ISIMIP2a historical depth/fraction NetCDFs, sorted by name."""
+    return sorted(
+        [*src_dir.glob("cama-flood_*_flddph_*.nc4"), *src_dir.glob("cama-flood_*_fldfrc_*.nc4")],
+        key=lambda p: p.name,
+    )
+
+
+def freeze_isimip_hist(src_dir: Path, dest_dir: Path, *, force: bool = False) -> list[Path]:
+    """Freeze the ISIMIP2a observed-forcing flood files (RF calibration inputs)."""
+    frozen = []
+    for nc in isimip_hist_files(src_dir):
+        dest = dest_dir / nc.name
+        if not force and verify_provenance(dest):
+            frozen.append(dest)
+            continue
+        frozen.append(
+            freeze_copy(nc, dest_dir, source=_FUENTE_ISIMIP2A, force=force, **_isimip_extra(nc))
+        )
+    return frozen
+
+
+def verify_inputs(dem_dest: Path, isimip_dir: Path, isimip_frozen_dir: Path) -> dict[str, bool]:
+    """Checksum verification of the frozen DEM, RCP pins, and frozen ISIMIP2a files."""
     estado = {dem_dest.name: verify_provenance(dem_dest)}
     for nc in isimip_files(isimip_dir):
+        estado[nc.name] = verify_provenance(nc)
+    for nc in isimip_hist_files(isimip_frozen_dir):
         estado[nc.name] = verify_provenance(nc)
     return estado
 
@@ -119,10 +155,13 @@ def main(argv: list[str] | None = None) -> int:
     dem_mx = Path(fuentes["dem_mexico"]).expanduser()
     dem_global = Path(fuentes["dem_global"]).expanduser()
     isimip_dir = Path(fuentes["isimip_dir"]).expanduser()
-    dem_dest_dir = ProjectPaths().data / "dem"
+    isimip_hist = Path(fuentes["isimip_hist"]).expanduser()
+    data = ProjectPaths().data
+    dem_dest_dir = data / "dem"
+    isimip_dest_dir = data / "isimip"
 
     if args.modo == "verificar":
-        estado = verify_inputs(dem_dest_dir / dem_mx.name, isimip_dir)
+        estado = verify_inputs(dem_dest_dir / dem_mx.name, isimip_dir, isimip_dest_dir)
         for nombre, ok in estado.items():
             print(f"{'OK ' if ok else 'FALLA'} {nombre}")
         return 0 if all(estado.values()) else 1
@@ -131,6 +170,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"congelado: {dem}")
     for nc in pin_isimip(isimip_dir, force=args.forzar):
         print(f"pin en sitio: {nc}")
+    for nc in freeze_isimip_hist(isimip_hist, isimip_dest_dir, force=args.forzar):
+        print(f"congelado: {nc}")
     return 0
 
 
