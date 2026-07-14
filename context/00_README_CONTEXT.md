@@ -97,5 +97,5 @@ happen elsewhere, run the ritual there and merge by hand into this canon.
 ---
 
 ## Related
-[[_INDEX]] · [[DECISIONS]] · [[DATA_CONTRACTS]] · [[GLOSSARY]] · [[REFERENCES]] · [[OPEN_QUESTIONS]] · [[WORKFLOW]] · [[CAL_MOC]] · [[Calibracion_Impacto_Mexico_Master]]
+Home: [[_INDEX]] · [[DECISIONS]] · [[DATA_CONTRACTS]] · [[GLOSSARY]] · [[REFERENCES]] · [[OPEN_QUESTIONS]] · [[WORKFLOW]] · [[CAL_MOC]] · [[Calibracion_Impacto_Mexico_Master]]
 #arm/cal #type/workflow
