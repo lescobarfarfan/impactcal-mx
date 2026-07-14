@@ -20,9 +20,13 @@ Los `.nc` ISIMIP2b en mano **no sirven para la calibración histórica**: son pr
 
 Para los años del panel sin ISIMIP2a, el insumo es la **descarga fluvial diaria GloFAS-ERA5** (reanalysis 1979–presente, 0.05°, doi:10.24381/cds.a4fdd6b9), hoy servida por el **CEMS Early Warning Data Store** (EWDS — los datasets `cems-glofas-*` migraron ahí desde el CDS; el token ECMWF de `~/.cdsapirc` sirve para ambos). Descarga vía `impactcal.hazard.glofas` (config `glofas:`, 1 NetCDF/año 2011–2015, bbox México, procedencia con el request completo). Verificado end-to-end salvo la licencia **"CEMS-FLOODS datasets licence"** (aceptación manual en el portal EWDS). Los footprints se computarán después con `climada_petals.hazard.rf_glofas.RiverFloodInundation` (disponible en `climada_env`, petals 6.1.0), que produce `flood_depth` y `flood_depth_flopros` — las mismas dos variantes de protección que los ISIMIP2a congelados, así que la decisión none/flopros aplica pareja a ambos tramos. Consistencia ISIMIP2a↔GloFAS en años de traslape: pendiente de diseño (candidato a `OQ-CAL`).
 
+## Re-confirmación 0.5 h en la malla definitiva (2026-07-14)
+
+Con la malla definitiva ya existente ([[litpop-exposure]], LitPop 150 as), corrida `timestep_test_20260714T184936Z` (0.25 vs 0.5 h, 4 tormentas, config del run en su manifest): **0.5 h se sostiene** — pérdida agregada relativa 0.998 (Wilma), 0.989 (Odile), 0.940 (Patricia), 0.937 (Willa), idéntica a la corrida del 2026-07-13; swath RMSE ≤ 1.92 m/s, |sesgo| ≤ 0.35 m/s. Grano estatal ≥ 0.92 en general (Nayarit-Patricia 1.009 — el hueco del caso 1 h no aparece); **un outlier a documentar: Patricia/Colima captura 0.64 del referente** (estado pequeño en el punto exacto de landfall de la tormenta más rápida; sesgo consistente absorbible por `v_half`, `CAL-WIND-02`). NaN = estados con pérdida ~0 en el referente (artefacto documentado tipo SLP).
+
 ## Estado del checklist `OQ-CAL-15`
 
-Pin IBTrACS ✓ · procedencia DEM (`OQ-CAL-05`) ✓ · procedencia ISIMIP (`OQ-CAL-06`) ✓ con hallazgo · re-confirmación 0.5 h vs 0.25 h **pendiente**: espera la malla definitiva de exposición (paso 3, `CAL-EXP-*`; la resolución LitPop aún no está fijada), igual que la v1 del crosswalk (`OQ-CAL-02`).
+Pin IBTrACS ✓ · procedencia DEM (`OQ-CAL-05`) ✓ · procedencia ISIMIP (`OQ-CAL-06`) ✓ con hallazgo resuelto (ISIMIP2a + GloFAS) · re-confirmación 0.5 h vs 0.25 h en malla definitiva ✓ (outlier Colima documentado) — **checklist completo**, cierre formal en `/digest`.
 
 ## Uso
 
