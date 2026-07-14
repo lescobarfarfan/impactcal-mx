@@ -23,6 +23,11 @@ re-verified — do not cite in the manuscript until checked (tracked in `OPEN_QU
 - **`[Tuleya2007]`** — Tuleya, R. E., DeMaria, M., & Kuligowski, R. J. (2007). *Evaluation of GFDL and simple statistical model rainfall forecasts for U.S. landfalling tropical storms.* Weather and Forecasting, 22(1), 56–70. DOI: 10.1175/WAF972.1 — Backs `CAL-RAIN-01` (R-CLIPER).
 - **`[Lu2018]`** — Lu, P., Lin, N., Emanuel, K., Chavas, D., & Smith, J. (2018). *Assessing hurricane rainfall mechanisms using a physics-based model.* Journal of the Atmospheric Sciences, 75(7), 2337–2358. DOI: 10.1175/JAS-D-17-0264.1 — Backs `CAL-RAIN-01` (TCR).
 
+## 2b. Fluvial hazard
+
+- **`[WillnerISIMIP2024]`** — Willner, S., Sauer, I., Novak, L., & Otto, C. (2024). *Global simulations of fluvial floods based on the ISIMIP2 ensemble of global hydrological models (v1.0).* ISIMIP Repository (DerivedOutputData/Zimmer2023). DOI: 10.48364/ISIMIP.303619 — Backs `CAL-RF-02` (dataset DOI + portal verified 2026-07-14; sha512 of the frozen files verified against the repository).
+- **`[Harrigan2020]`** — Harrigan, S., Zsoter, E., Alfieri, L., Prudhomme, C., Salamon, P., Wetterhall, F., Barnard, C., Cloke, H., & Pappenberger, F. (2020). *GloFAS-ERA5 operational global river discharge reanalysis 1979–present.* Earth System Science Data, 12(3), 2043–2060. DOI: 10.5194/essd-12-2043-2020 — Backs `CAL-RF-03` (verified 2026-07-14 against the ESSD page; dataset DOI 10.24381/cds.a4fdd6b9).
+
 ## 3. Statistics
 
 - **`[GelmanHill2007]`** — Gelman, A., & Hill, J. (2007). *Data Analysis Using Regression and Multilevel/Hierarchical Models.* Cambridge University Press. — Backs `CAL-BAYES-01/03` (partial pooling).

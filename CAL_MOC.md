@@ -13,6 +13,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.
 - [[2026-07-12_yagni-ponytail-audit]] — YAGNI discipline (`CAL-GEN-13`) + whole-repo over-engineering audit.
+- [[2026-07-14_hazard-freeze-exposures]] — hazard-freeze checklist (`OQ-CAL-15`) + insumo RF dos-segmentos + exposición LitPop (malla definitiva).
 
 ## Canon shortcuts
 [[DECISIONS]] · [[DATA_CONTRACTS]] · [[OPEN_QUESTIONS]]

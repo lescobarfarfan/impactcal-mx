@@ -30,12 +30,13 @@ conventions `DC-CONV-*`; joins `DC-XWALK-*`.
 
 ## DC-CAL-EXP — Exposures
 
-- `DC-CAL-EXP-1` `exp_total` (ruta B): LitPop MEX `Exposures`; columns incl. `value (USD→document conversion), cve_ent, region_id, impf_TC, impf_TCSurgeBathtub, impf_TR, impf_RF`. Persisted HDF5 + provenance. `PROPOSED`
+- `DC-CAL-EXP-1` `exp_total` (ruta B): LitPop MEX `Exposures`; columns incl. `value (USD→document conversion), cve_ent, region_id, impf_TC, impf_TCSurgeBathtub, impf_TR, impf_RF`. Delivered: `data/exposures/litpop_mex_150as.hdf5` + provenance (`CAL-EXP-04`; 100,369 centroides). `FIRM`
 - `DC-CAL-EXP-2` `exp_aseg_{anio}` (ruta A): state sums insured of year, disaggregated ∝ LitPop within state (`CAL-EXP-02`); same columns; value in MXN of year. `PROPOSED`
 
 ## DC-CAL-HAZ — Frozen hazards
 
 - `DC-CAL-HAZ-1` Four `Hazard` HDF5 files on **shared centroids** (= exposure coordinates): `haz_tc.h5` (m/s), `haz_surge.h5` (m), `haz_rain.h5` (mm), `haz_rf.h5` (m + fraction). Each with `_procedencia.json`: CLIMADA/petals versions, IBTrACS version, timestep, DEM/ISIMIP source, generation date, sha256. `FIRM` (requirement) / `TBD` (files)
+- `DC-CAL-HAZ-2` **Frozen raw hazard inputs** (all with `_procedencia.json`): `data/ibtracs/crudos/` (CSVs EP+NA + `IBTrACS.ALL.v04r01.nc`, `CAL-WIND-03`); `data/dem/SRTM15+V2_Mexico.tif` (`CAL-SURGE-02`); `data/isimip/cama-flood_matsiro_gswp3_*_{none,flopros}_150arcsec_*_1971_2010.nc4` (`CAL-RF-02`); `data/glofas/crudos/glofas-era5_version_4_0_dis24_mexico_{2011..2015}.nc` (`CAL-RF-03`); `data/marco_geoestadistico/00ent.*` (`CAL-EXP-04`). ISIMIP2b RCP `.nc` pinned in place (fuera del repo). `FIRM`
 
 ## DC-CAL-BAYES — Surfaces & posteriors
 

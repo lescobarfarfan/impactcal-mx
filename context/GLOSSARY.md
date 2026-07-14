@@ -41,8 +41,10 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 - **LitPop** — nightlights × GDP asset-exposure proxy (Eberenz et al. 2020).
 - **INPC** — Índice Nacional de Precios al Consumidor (INEGI); the deflator (`CAL-TARGET-03`).
 - **Marco Geoestadístico** — INEGI state polygons; `cve_ent` 2-digit key (`DC-CONV-5`).
-- **ISIMIP / CaMa-Flood** — inter-sectoral impact model project / global flood model; source of RF NetCDFs.
-- **GloFAS** — Global Flood Awareness System (CDS); fase-2 fluvial refinement.
+- **ISIMIP / CaMa-Flood** — inter-sectoral impact model project / global flood model; source of RF NetCDFs. **ISIMIP2a** = observed-forcing runs (calibration input, 1971–2010); **ISIMIP2b** = GCM-forced scenario runs (prospective use only, `CAL-RF-02`).
+- **GloFAS** — Global Flood Awareness System; GloFAS-ERA5 daily discharge reanalysis (1979–present) covers panel years 2011–2015 (`CAL-RF-03`).
+- **EWDS** — CEMS Early Warning Data Store (ewds.climate.copernicus.eu); serves the `cems-glofas-*` datasets (migrated from the CDS; same ECMWF token, own licences incl. CEMS-FLOODS).
+- **FLOPROS** — global database of flood protection standards; the `flopros` protection variant of ISIMIP2a/`rf_glofas` footprints (`OQ-CAL-16`).
 - **`_procedencia.json`** — per-artifact provenance sidecar (`CAL-GEN-02`).
 - **Consolidados CENAPRED** — the four frozen outputs of the climateCCR pipeline (panel año×estado×peril, eventos, multiestado, catálogo); the CENAPRED interface of this repo (`CAL-TARGET-04`), 2000–2015.
 - **`freeze_copy`** — `impactcal.infra.freeze`: idempotent copy of external inputs into `data/<fuente>/` with sha256 verification + provenance sidecar (`CAL-GEN-02/12`).
@@ -70,6 +72,10 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | The canonical output | **parametros_impacto_estatal.csv construir_impfset reconstructor never pickles** |
 | Merge with climateCCR | **CAL prefix HAZ-CLIMADA import crosswalk parameter table interface OQ-CAL-12** |
 | The YAGNI discipline | **YAGNI minimal one-line simplest stdlib no speculative abstraction ponytail audit** |
+| Frozen hazard inputs | **checklist congelamiento IBTrACS date_created freeze-as-is DEM SRTM15 recorte 00ent sha512 oficial** |
+| The RF two-segment input | **ISIMIP2a gswp3 matsiro 2000-2010 GloFAS-ERA5 2011-2015 EWDS cems-glofas-historical licencia CEMS-FLOODS none flopros** |
+| The definitive grid | **malla definitiva LitPop 150 arcsec 100369 centroides claves estatales nearest fallback EPSG 6372** |
+| Timestep re-confirmation | **re-confirmación malla definitiva 0.5 h se sostiene outlier Colima 0.64 landfall Patricia** |
 
 ---
 
