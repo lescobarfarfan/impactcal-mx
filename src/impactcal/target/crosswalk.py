@@ -1,17 +1,24 @@
-"""Year-state ↔ IBTrACS storm crosswalk, version v0 (DC-XWALK-1; CAL-XWALK-01/02).
+"""Year-state ↔ IBTrACS storm crosswalk, version v1 (DC-XWALK-1; CAL-XWALK-01/02).
 
-v0 is **loss-side only**: the affected set comes from CENAPRED-reported events,
-matched to IBTrACS storms by `nombre_evento` + season (fallback: date-window
-overlap with tracks near Mexico). The canonical hazard-side definition — wind
-field above `v_thresh` plus the TCRain cone (CAL-XWALK-01) — requires frozen
-hazards and lands in v1 once the timestep test closes (OQ-CAL-01); the column
-`sids_cono_lluvia` is therefore left empty in v0.
+v1 is **hazard-side** (CAL-XWALK-01, unblocked by the frozen `haz_tc.h5` /
+`haz_rain.h5`): the affected set per year-state comes from the per-state
+footprints of the frozen hazards (`impactcal.hazard.footprints`) —
+`sids_viento` = storms with wind above `v_thresh` over the state,
+`sids_cono_lluvia` = storms whose rain cone (TCRain above
+`crosswalk.umbral_lluvia_mm`) reaches it. CENAPRED events still anchor the
+loss side: CT events are matched to SIDs by nombre+temporada (with a
+conservative fuzzy fallback for typos, flagged `nombre_fuzzy`), then by
+date-window overlap; date-window candidates are disambiguated by whether
+their footprint actually touches the event's states.
 
-Family-assignment rule implemented (v0 proxy of CAL-XWALK-02, date-window in
-place of the rain cone): a year-state whose only events are LLUV/INUND is
-`ciclonica` when all those events overlap a matched storm window of that year
-(rain filed under inundación perils — the inland CDMX case), `fluvial` when
-none do, and `mixta_flag` otherwise.
+Family-assignment rule (CAL-XWALK-02, v1): an LLUV/INUND event is
+cyclone-related when a storm's rain cone reaches the state that year **and**
+the event window overlaps that storm's window (±buffer) — the v0 national
+date-window proxy is superseded by the actual cone. Year-states in the
+affected set with no CENAPRED event are kept with empty familia and flagged
+`tormenta_sin_perdida` (inside the panel) or `fuera_panel_cenapred` (after
+it); CT-reported year-states that no modeled storm touches are flagged
+`perdida_sin_tormenta_modelada` (CAL-XWALK-01 verification).
 
 CLI::
 
@@ -22,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import difflib
 import unicodedata
 from pathlib import Path
 from typing import Any
@@ -31,7 +39,7 @@ import pandas as pd
 from impactcal.infra.config import load_config
 from impactcal.infra.manifest import RunManifest
 from impactcal.infra.paths import ProjectPaths
-from impactcal.infra.provenance import _sha256, write_provenance
+from impactcal.infra.provenance import _sha256, verify_provenance, write_provenance
 
 # Claves INEGI (DC-CONV-5), keyed by the entity names as normalized by the
 # climateCCR CENAPRED pipeline (`limpieza_cnsf.clasificar_entidad`), plus
@@ -119,6 +127,10 @@ _NUMERAL_ES_EN = {
     "VEINTE": "TWENTY",
 }
 
+# Conservative cutoff for the fuzzy name fallback (CENAPRED typos, e.g.
+# "Julette" → JULIETTE); accepted only when the season has a single close name.
+_FUZZY_CUTOFF = 0.8
+
 
 def _sin_acentos(texto: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFKD", texto) if not unicodedata.combining(c))
@@ -156,10 +168,24 @@ def _ventanas_solapan(
     return ini_a <= fin_b and ini_b <= fin_a
 
 
+def _claves_evento(estados: str) -> set[str]:
+    return {ENTIDAD_A_CVE[e.strip()] for e in str(estados).split("|") if e.strip() in ENTIDAD_A_CVE}
+
+
 def match_events(
-    eventos: pd.DataFrame, storm_index: pd.DataFrame, *, buffer_dias: int = 3
+    eventos: pd.DataFrame,
+    storm_index: pd.DataFrame,
+    *,
+    buffer_dias: int = 3,
+    sids_por_estado: dict[str, set[str]] | None = None,
 ) -> pd.DataFrame:
     """Event-level match of CT events against the IBTrACS per-storm index.
+
+    Name matches get a conservative fuzzy fallback (`nombre_fuzzy`). When
+    `sids_por_estado` (state → SIDs with any hazard footprint) is given,
+    multi-candidate date matches keep only candidates whose footprint touches
+    one of the event's states (`candidatos_filtrados_huella`); if none does,
+    the candidates are kept and flagged `candidatos_sin_huella`.
 
     Returns one row per event: `evento_id, anio, nombre_evento, nombre_extraido,
     metodo_match {nombre|fechas|sin_match}, sids (';'-sep), flag_evento`.
@@ -175,6 +201,16 @@ def match_events(
         metodo = "sin_match"
         for nombre in nombres:
             cand = temporada[temporada["name"].str.upper() == nombre]
+            if cand.empty:
+                cercanos = difflib.get_close_matches(
+                    nombre,
+                    temporada["name"].str.upper().unique().tolist(),
+                    n=2,
+                    cutoff=_FUZZY_CUTOFF,
+                )
+                if len(cercanos) == 1:
+                    cand = temporada[temporada["name"].str.upper() == cercanos[0]]
+                    flags.append("nombre_fuzzy")
             sids.extend(cand["sid"].tolist())
         if sids:
             metodo = "nombre"
@@ -198,6 +234,18 @@ def match_events(
                 sids = cand["sid"].tolist()
                 if sids:
                     metodo = "fechas"
+                    if len(sids) > 1 and sids_por_estado is not None:
+                        tocan = {
+                            s
+                            for cve in _claves_evento(ev.get("estados", ""))
+                            for s in sids_por_estado.get(cve, set())
+                        }
+                        filtrados = [s for s in sids if s in tocan]
+                        if filtrados and len(filtrados) < len(sids):
+                            sids = filtrados
+                            flags.append("candidatos_filtrados_huella")
+                        elif not filtrados:
+                            flags.append("candidatos_sin_huella")
                     if len(sids) > 1:
                         flags.append("candidatos_multiples")
         if not sids:
@@ -227,52 +275,71 @@ def _explotar_estados(eventos: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     return df.dropna(subset=["cve_ent"]), no_localizados
 
 
+def _afectados(
+    huellas: pd.DataFrame, peril: str, umbral: float, temporada_sid: dict[str, int]
+) -> dict[tuple[int, str], set[str]]:
+    """(año, estado) → SIDs whose `peril` footprint exceeds `umbral` there."""
+    sel = huellas[(huellas["peril"] == peril) & (huellas["int_max"] > umbral)]
+    afect: dict[tuple[int, str], set[str]] = {}
+    for fila in sel.itertuples():
+        if fila.sid in temporada_sid:
+            afect.setdefault((int(temporada_sid[fila.sid]), fila.cve_ent), set()).add(fila.sid)
+    return afect
+
+
 def build_crosswalk(
-    eventos: pd.DataFrame, storm_index: pd.DataFrame, config: dict[str, Any]
+    eventos: pd.DataFrame,
+    storm_index: pd.DataFrame,
+    config: dict[str, Any],
+    huellas: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
-    """Build the v0 crosswalk from the CENAPRED event table and the storm index.
+    """Build the v1 crosswalk from CENAPRED events, the storm index and the
+    per-state hazard footprints.
 
     Returns `(crosswalk año×estado, event-level match table, summary dict)`.
-    `eventos` is the frozen `eventos_cenapred_climada.csv` as strings.
+    `eventos` is the frozen `eventos_cenapred_climada.csv` as strings;
+    `huellas` the `huellas_estatales.csv` table (sid, cve_ent, peril, int_max).
     """
     cfg = config["crosswalk"]
     ciclonicos = set(cfg["subtipos_ciclonicos"])
     fluviales = set(cfg["subtipos_fluviales"])
     buffer = pd.Timedelta(days=int(cfg["buffer_dias"]))
     version = cfg["version"]
+    v_thresh = float(config["impacto"]["v_thresh"])
+    if cfg.get("umbral_lluvia_mm") is None:
+        raise ValueError("crosswalk.umbral_lluvia_mm sin decidir (OQ-CAL-02)")
+    umbral_lluvia = float(cfg["umbral_lluvia_mm"])
+
+    temporada_sid = dict(zip(storm_index["sid"], storm_index["season"], strict=True))
+    ventana_sid = {s.sid: (s.fecha_inicio, s.fecha_fin) for s in storm_index.itertuples()}
+    afect_v = _afectados(huellas, "viento", v_thresh, temporada_sid)
+    afect_r = _afectados(huellas, "lluvia", umbral_lluvia, temporada_sid)
+    presencia = huellas.groupby("cve_ent")["sid"].agg(set).to_dict()
 
     universo = eventos[
         (eventos["en_alcance_climatico"] == "si")
         & (eventos["subtipo"].isin(ciclonicos | fluviales))
     ].copy()
     universo["anio"] = universo["anio"].astype(int)
+    panel_max = int(universo["anio"].max())
 
     ct = universo[universo["subtipo"] == "CT"]
-    match = match_events(ct, storm_index, buffer_dias=int(cfg["buffer_dias"]))
-    sids_por_evento = dict(zip(match["evento_id"], match["sids"], strict=True))
+    match = match_events(
+        ct, storm_index, buffer_dias=int(cfg["buffer_dias"]), sids_por_estado=presencia
+    )
     flags_por_evento = dict(zip(match["evento_id"], match["flag_evento"], strict=True))
 
-    # Matched storm windows per year (national), for the rain-in-storm-window rule.
-    sids_anio: dict[int, set[str]] = {}
-    for _, m in match.iterrows():
-        if m["sids"]:
-            sids_anio.setdefault(m["anio"], set()).update(m["sids"].split(";"))
-    ventanas_anio = {
-        anio: storm_index[storm_index["sid"].isin(sids)][["fecha_inicio", "fecha_fin"]]
-        for anio, sids in sids_anio.items()
-    }
-
-    def _en_ventana_tormenta(ev: pd.Series) -> bool | None:
+    def _lluvia_ciclonica(ev: pd.Series, anio: int, cve_ent: str) -> bool | None:
+        """CAL-XWALK-02 v1: cone reaches the state AND event overlaps that
+        storm's window (±buffer). None = event dates missing."""
         ini = pd.to_datetime(ev["fecha_inicio"], errors="coerce")
         fin = pd.to_datetime(ev["fecha_fin"], errors="coerce")
         if pd.isna(ini):
             return None
-        ventanas = ventanas_anio.get(int(ev["anio"]))
-        if ventanas is None or ventanas.empty:
-            return False
         return any(
-            _ventanas_solapan(ini, fin, v.fecha_inicio - buffer, v.fecha_fin + buffer)
-            for v in ventanas.itertuples()
+            _ventanas_solapan(ini, fin, ventana_sid[s][0] - buffer, ventana_sid[s][1] + buffer)
+            for s in afect_r.get((anio, cve_ent), set())
+            if s in ventana_sid
         )
 
     exploded, no_localizados = _explotar_estados(universo)
@@ -283,13 +350,10 @@ def build_crosswalk(
         es_flu = grupo["subtipo"].isin(fluviales)
         flags: set[str] = set()
 
-        sids: set[str] = set()
         for eid in grupo.loc[grupo["subtipo"] == "CT", "evento_id"]:
-            if sids_por_evento.get(eid):
-                sids.update(sids_por_evento[eid].split(";"))
             flags.update(f for f in flags_por_evento.get(eid, "").split(";") if f)
 
-        solapes = [_en_ventana_tormenta(ev) for _, ev in grupo[es_flu].iterrows()]
+        solapes = [_lluvia_ciclonica(ev, anio, cve_ent) for _, ev in grupo[es_flu].iterrows()]
         if any(s is None for s in solapes):
             flags.add("fecha_faltante")
         solapes_bool = [bool(s) for s in solapes]
@@ -298,23 +362,28 @@ def build_crosswalk(
             familia, regla = "ciclonica", "ct_reportado"
         elif es_flu.any() and not es_cic.any():
             if solapes_bool and all(solapes_bool):
-                familia, regla = "ciclonica", "lluvia_en_ventana_tormenta"
+                familia, regla = "ciclonica", "lluvia_en_cono_tormenta"
             elif any(solapes_bool):
-                familia, regla = "mixta_flag", "mixto_parcial_ventana"
+                familia, regla = "mixta_flag", "mixto_parcial_cono"
             else:
                 familia, regla = "fluvial", "fluvial_independiente"
         else:
             if solapes_bool and all(solapes_bool):
-                familia, regla = "ciclonica", "ct_y_lluvia_en_ventana"
+                familia, regla = "ciclonica", "ct_y_lluvia_en_cono"
             else:
                 familia, regla = "mixta_flag", "mixto"
+
+        sids_v = afect_v.get((anio, cve_ent), set())
+        sids_r = afect_r.get((anio, cve_ent), set())
+        if es_cic.any() and not sids_v and not sids_r:
+            flags.add("perdida_sin_tormenta_modelada")
 
         filas.append(
             {
                 "anio": anio,
                 "cve_ent": cve_ent,
-                "sids_viento": ";".join(sorted(sids)),
-                "sids_cono_lluvia": "",  # v1: requires TCRain (CAL-XWALK-01, OQ-CAL-01)
+                "sids_viento": ";".join(sorted(sids_v)),
+                "sids_cono_lluvia": ";".join(sorted(sids_r)),
                 "familia_asignada": familia,
                 "flag_revision": ";".join(sorted(flags)),
                 "regla_aplicada": regla,
@@ -322,8 +391,26 @@ def build_crosswalk(
             }
         )
 
-    xwalk = pd.DataFrame(filas).sort_values(["anio", "cve_ent"])
-    xwalk = xwalk.reset_index(drop=True)
+    claves_perdida = {(f["anio"], f["cve_ent"]) for f in filas}
+    for anio, cve_ent in sorted(set(afect_v) | set(afect_r)):
+        if (anio, cve_ent) in claves_perdida:
+            continue
+        filas.append(
+            {
+                "anio": anio,
+                "cve_ent": cve_ent,
+                "sids_viento": ";".join(sorted(afect_v.get((anio, cve_ent), set()))),
+                "sids_cono_lluvia": ";".join(sorted(afect_r.get((anio, cve_ent), set()))),
+                "familia_asignada": "",
+                "flag_revision": (
+                    "tormenta_sin_perdida" if anio <= panel_max else "fuera_panel_cenapred"
+                ),
+                "regla_aplicada": "afectado_solo_hazard",
+                "version_crosswalk": version,
+            }
+        )
+
+    xwalk = pd.DataFrame(filas).sort_values(["anio", "cve_ent"]).reset_index(drop=True)
 
     resumen = {
         "n_eventos_universo": int(len(universo)),
@@ -331,7 +418,10 @@ def build_crosswalk(
         "match_por_metodo": match["metodo_match"].value_counts().to_dict(),
         "n_anio_estado": int(len(xwalk)),
         "familias": xwalk["familia_asignada"].value_counts().to_dict(),
+        "reglas": xwalk["regla_aplicada"].value_counts().to_dict(),
         "entidades_no_localizadas": no_localizados,
+        "v_thresh_ms": v_thresh,
+        "umbral_lluvia_mm": umbral_lluvia,
         "version_crosswalk": version,
     }
     return xwalk, match, resumen
@@ -349,15 +439,21 @@ def main(argv: list[str] | None = None) -> int:
     cfg = config["crosswalk"]
 
     eventos_csv = paths.data / "cenapred" / "consolidados" / "eventos_cenapred_climada.csv"
+    huellas_csv = paths.data / "crosswalk" / "huellas_estatales.csv"
     ibtracs_dir = paths.data / "ibtracs" / "crudos"
+    if not verify_provenance(huellas_csv):
+        raise RuntimeError(
+            f"Huellas corruptas o sin procedencia (impactcal.hazard.footprints): {huellas_csv}"
+        )
     eventos = pd.read_csv(eventos_csv, dtype=str, na_filter=False)
+    huellas = pd.read_csv(huellas_csv, dtype={"cve_ent": str})
     storm_index = load_storm_index(
         ibtracs_dir,
         season_min=int(config["periodo"]["anio_inicial"]),
         bbox=cfg["bbox_mexico"],
     )
 
-    xwalk, match, resumen = build_crosswalk(eventos, storm_index, config)
+    xwalk, match, resumen = build_crosswalk(eventos, storm_index, config, huellas)
 
     out_dir = paths.data / "crosswalk"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -368,15 +464,21 @@ def main(argv: list[str] | None = None) -> int:
 
     insumos = {
         eventos_csv.name: _sha256(eventos_csv),
+        huellas_csv.name: _sha256(huellas_csv),
         **{f.name: _sha256(f) for f in sorted(ibtracs_dir.glob("ibtracs.*.csv"))},
     }
     for salida in (salida_xwalk, salida_match):
         write_provenance(
             salida,
-            source="impactcal.target.crosswalk (determinista, v0 lado-pérdidas)",
+            source="impactcal.target.crosswalk (determinista, v1 lado-hazard)",
             insumos=insumos,
             version_crosswalk=cfg["version"],
-            regla="CAL-XWALK-01/02 v0: nombre+temporada, fallback ventana de fechas",
+            regla=(
+                "CAL-XWALK-01/02 v1: huellas hazard (viento>v_thresh, cono lluvia>umbral) "
+                "+ nombre/temporada con fuzzy + ventana de fechas desambiguada por huella"
+            ),
+            v_thresh_ms=float(config["impacto"]["v_thresh"]),
+            umbral_lluvia_mm=float(cfg["umbral_lluvia_mm"]),
         )
 
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -384,7 +486,7 @@ def main(argv: list[str] | None = None) -> int:
         run_id=f"crosswalk_{cfg['version']}_{ts}",
         seed=int(config["semilla_base"]),
         config=config,
-        notes="Crosswalk v0: determinista (sin RNG); semilla registrada por CAL-GEN-05.",
+        notes="Crosswalk v1: determinista (sin RNG); semilla registrada por CAL-GEN-05.",
     ).write(paths.manifests, paths.root)
 
     print(f"crosswalk: {salida_xwalk}")
