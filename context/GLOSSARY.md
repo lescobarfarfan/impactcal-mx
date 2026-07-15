@@ -76,6 +76,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | The RF two-segment input | **ISIMIP2a gswp3 matsiro 2000-2010 GloFAS-ERA5 2011-2015 EWDS cems-glofas-historical licencia CEMS-FLOODS none flopros** |
 | The definitive grid | **malla definitiva LitPop 150 arcsec 100369 centroides claves estatales nearest fallback EPSG 6372** |
 | Timestep re-confirmation | **re-confirmación malla definitiva 0.5 h se sostiene outlier Colima 0.64 landfall Patricia** |
+| The frozen TC hazards | **haz_tc haz_rain generación 540 tormentas universo near-Mexico bbox estimate_missing temporada_max 2024 H08 R-CLIPER caché hash restaurada** |
 
 ---
 
