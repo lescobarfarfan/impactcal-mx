@@ -26,7 +26,8 @@ conventions `DC-CONV-*`; joins `DC-XWALK-*`.
 
 ## DC-XWALK — Crosswalk
 
-- `DC-XWALK-1` `crosswalk_anio_estado_tormentas.csv` — grain año×estado; columns `anio, cve_ent, sids_viento (lista IBTrACS SID, ';'-sep), sids_cono_lluvia, familia_asignada {ciclonica|fluvial|mixta_flag}, flag_revision, regla_aplicada, version_crosswalk`. Rules `CAL-XWALK-01/02`; **v0 delivered** (`CAL-XWALK-03/04`, `data/crosswalk/`; `sids_cono_lluvia` empty until v1). Companion audit table `eventos_sid_match.csv` (evento_id, nombre_extraido, metodo_match, sids, flag_evento). `FIRM` (schema) / v1 semantics pending (`OQ-CAL-02`)
+- `DC-XWALK-1` `crosswalk_anio_estado_tormentas.csv` — grain año×estado; columns `anio, cve_ent, sids_viento (lista IBTrACS SID, ';'-sep), sids_cono_lluvia, familia_asignada {ciclonica|fluvial|mixta_flag; vacía en filas solo-hazard}, flag_revision, regla_aplicada, version_crosswalk`. Rules `CAL-XWALK-01/02`; **v1 delivered** (`CAL-XWALK-03/04`, `data/crosswalk/`, 567 filas). Verification flags feeding the inclusion mask (`DC-CAL-TARGET-4`): `tormenta_sin_perdida`, `fuera_panel_cenapred`, `perdida_sin_tormenta_modelada`, `candidatos_filtrados_huella`, `candidatos_sin_huella`, `nombre_fuzzy`. Companion audit table `eventos_sid_match.csv` (evento_id, nombre_extraido, metodo_match, sids, flag_evento). `FIRM`
+- `DC-XWALK-2` `huellas_estatales.csv` — grain evento×estado×peril (solo filas con intensidad > 0); columns `sid, cve_ent, peril {viento|lluvia}, int_max` (m/s | mm acumulados). From `impactcal.hazard.footprints` on the frozen hazards + exposure (provenance chains their sha256). Input of `DC-XWALK-1` v1. `FIRM`
 
 ## DC-CAL-EXP — Exposures
 
