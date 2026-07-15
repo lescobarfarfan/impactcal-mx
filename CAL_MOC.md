@@ -10,6 +10,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[hazard-freeze-inputs]] — checklist `OQ-CAL-15`: IBTrACS netCDF + DEM congelados, RCP pineados en sitio; insumo RF histórico resuelto con ISIMIP2a gswp3 1971–2010 (bloque RF calibra 2000–2010).
 - [[litpop-exposure]] — exposición LitPop MEX ruta B (`CAL-EXP-01/03`): 150 as, 100k centroides, claves estatales INEGI; la malla definitiva existe.
 - [[hazard-tc-generation]] — hazards TC congelados (`DC-CAL-HAZ-1` parcial): `haz_tc.h5` + `haz_rain.h5`, 540 tormentas 2000–2024 sobre la malla definitiva; desbloquea `OQ-CAL-02`.
+- [[crosswalk-v1-hazard-side]] — crosswalk v1 (`CAL-XWALK-01/02`): huellas estatales, cono de lluvia 50 mm, desambiguación por huella; cola v0 68→17, 123/220 mixtas resueltas.
 
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.

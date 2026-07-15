@@ -69,8 +69,10 @@ glofas:                     # CAL-RF-01 fase 2: descarga diaria GloFAS-ERA5 (EWD
   product_type: consolidated
   area: [33, -118, 14, -86]               # N, W, S, E — bbox hazard México
 
-crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v0 lado-pérdidas (OQ-CAL-02)
-  version: v0.1-nombres-fechas
+crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v1 lado-hazard (OQ-CAL-02)
+  version: v1.0-huellas-hazard
+  umbral_lluvia_mm: 50                # cono de lluvia (OQ-CAL-02, decidido 2026-07-14): pertenencia al conjunto
+                                      # afectado, no daño (P_thresh filtra aguas abajo); sensibilidad 50-150 documentada
   subtipos_ciclonicos: [CT, MT, MF]   # ciclón tropical, marea de tormenta, mar de fondo
   subtipos_fluviales: [LLUV, INUND]   # daños por lluvia, inundación
   buffer_dias: 3                      # ventana evento↔tormenta para el empate por fechas
