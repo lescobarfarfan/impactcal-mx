@@ -13,6 +13,8 @@ hazard:
   timestep_horas: 0.5       # CAL-WIND-02 (superseded 2026-07-12): congelado por test de convergencia
   cuencas: [EP, NA]
   ibtracs_provider: usa
+  temporada_max: 2024       # última temporada completa en el nc congelado (date_created 2025-08-22, CAL-WIND-03)
+  estimate_missing: true    # completa viento/presión faltantes del proveedor usa (TCTracks.from_ibtracs_netcdf)
   dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (OQ-CAL-05)
   riverflood:
     depth_nc: null          # elegir en /digest entre los ISIMIP2a congelados en data/isimip/ (protección none|flopros)
