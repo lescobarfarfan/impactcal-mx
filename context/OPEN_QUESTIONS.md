@@ -5,7 +5,7 @@ IDs `OQ-CAL-NN`; gating items first.
 
 ## Gating (block the next deliverable)
 
-- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). Freeze inputs ready (`OQ-CAL-15` closed 2026-07-14): **now blocked only on generating the frozen hazards themselves** (`haz_tc.h5`, `haz_rain.h5` on the definitive grid, `CAL-EXP-04`).
+- `OQ-CAL-02` **Crosswalk v1 (hazard-side)** (`CAL-XWALK-01`; v0 delivered, `CAL-XWALK-03/04`): rain-cone intensity threshold (TCRain); wind-field verification of the v0 affected set (loss>0/no storm, storm/no loss); resolution of the v0 review queue — 220 `mixta_flag` year-states, 68 date-matches with multiple SID candidates, 2 `sin_match` events of 2000; optional fuzzy name matching (CENAPRED typos, e.g. "Julette"). **Unblocked 2026-07-14**: frozen `haz_tc.h5` + `haz_rain.h5` delivered on the definitive grid (`CAL-HAZ-SHARED-02`, [[hazard-tc-generation]]) — all remaining work is the v1 semantics itself.
 
 ## Modelling
 

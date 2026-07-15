@@ -35,7 +35,7 @@ conventions `DC-CONV-*`; joins `DC-XWALK-*`.
 
 ## DC-CAL-HAZ — Frozen hazards
 
-- `DC-CAL-HAZ-1` Four `Hazard` HDF5 files on **shared centroids** (= exposure coordinates): `haz_tc.h5` (m/s), `haz_surge.h5` (m), `haz_rain.h5` (mm), `haz_rf.h5` (m + fraction). Each with `_procedencia.json`: CLIMADA/petals versions, IBTrACS version, timestep, DEM/ISIMIP source, generation date, sha256. `FIRM` (requirement) / `TBD` (files)
+- `DC-CAL-HAZ-1` Four `Hazard` HDF5 files on **shared centroids** (= exposure coordinates): `haz_tc.h5` (m/s), `haz_surge.h5` (m), `haz_rain.h5` (mm), `haz_rf.h5` (m + fraction). Each with `_procedencia.json`: CLIMADA/petals versions, IBTrACS version, timestep, DEM/ISIMIP source, generation date, sha256. `FIRM` (requirement). Delivered 2026-07-14: `haz_tc.h5` + `haz_rain.h5` (`impactcal.hazard.tc`, universe `CAL-HAZ-SHARED-02`, provenance chains exposure + IBTrACS sha256, manifest `haz_tc_rain_20260715T023857Z`). `TBD`: `haz_surge.h5`, `haz_rf.h5`
 - `DC-CAL-HAZ-2` **Frozen raw hazard inputs** (all with `_procedencia.json`): `data/ibtracs/crudos/` (CSVs EP+NA + `IBTrACS.ALL.v04r01.nc`, `CAL-WIND-03`); `data/dem/SRTM15+V2_Mexico.tif` (`CAL-SURGE-02`); `data/isimip/cama-flood_matsiro_gswp3_*_{none,flopros}_150arcsec_*_1971_2010.nc4` (`CAL-RF-02`); `data/glofas/crudos/glofas-era5_version_4_0_dis24_mexico_{2011..2015}.nc` (`CAL-RF-03`); `data/marco_geoestadistico/00ent.*` (`CAL-EXP-04`). ISIMIP2b RCP `.nc` pinned in place (fuera del repo). `FIRM`
 
 ## DC-CAL-BAYES — Surfaces & posteriors
