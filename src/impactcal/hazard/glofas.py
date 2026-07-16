@@ -46,9 +46,19 @@ _FUENTE_FLOPROS = (
     "(doi:10.5194/nhess-16-1049-2016) [ref? -> REFERENCES §99]"
 )
 _FUENTE_GUMBEL = (
-    "Ajustes Gumbel precomputados de descarga GloFAS (ETH Research Collection, "
+    "Ajustes Gumbel precomputados de descarga GloFAS 1979-2015 (ETH Research Collection, "
     "hdl:20.500.11850/641667, dato companion de petals rf_glofas) [ref? -> REFERENCES §99]"
 )
+
+# La URL hardcodeada en petals 6.1.0 (research-collection viejo) hoy devuelve una página HTML;
+# bitstream resuelto vía la API DSpace del handle. Si ETH vuelve a migrar, el chequeo MD5 de
+# abajo falla en voz alta y esta URL se re-resuelve. Existe una edición 1979-2023
+# (hdl:20.500.11850/726304); la consistencia versión-fit vs descarga v4.0 se decide en OQ-CAL-17.
+GUMBEL_FIT_URL = (
+    "https://www.research-collection.ethz.ch/server/api/core/bitstreams/"
+    "04254cb9-5816-417c-97f7-683d4ee90285/content"
+)
+GUMBEL_FIT_MD5 = "859e96677fd03093367db51d979bb11d"
 
 
 def download_aux(dest_dir: Path, *, force: bool = False) -> list[Path]:
@@ -66,8 +76,26 @@ def download_aux(dest_dir: Path, *, force: bool = False) -> list[Path]:
 
     gumbel_nc = dest_dir / "gumbel-fit.nc"
     if force or not verify_provenance(gumbel_nc):
-        setup.download_gumbel_fit(dest_dir)
-        write_provenance(gumbel_nc, source=_FUENTE_GUMBEL, url=setup.GUMBEL_FIT_DATA)
+        import hashlib
+
+        import requests
+
+        data = requests.get(GUMBEL_FIT_URL, timeout=600).content
+        md5 = hashlib.md5(data).hexdigest()
+        if md5 != GUMBEL_FIT_MD5:
+            raise RuntimeError(
+                f"gumbel-fit.nc descargado no coincide con el MD5 del repositorio ETH "
+                f"({md5} != {GUMBEL_FIT_MD5}): ¿URL rota otra vez? Re-resolver vía la API "
+                "DSpace del handle 20.500.11850/641667."
+            )
+        gumbel_nc.write_bytes(data)
+        write_provenance(
+            gumbel_nc,
+            source=_FUENTE_GUMBEL,
+            url=GUMBEL_FIT_URL,
+            handle="20.500.11850/641667",
+            md5_repositorio=GUMBEL_FIT_MD5,
+        )
     out.append(gumbel_nc)
 
     flopros_dir = dest_dir / "FLOPROS_shp_V1"
