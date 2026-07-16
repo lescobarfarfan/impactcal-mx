@@ -15,10 +15,9 @@ hazard:
   ibtracs_provider: usa
   temporada_max: 2024       # última temporada completa en el nc congelado (date_created 2025-08-22, CAL-WIND-03)
   estimate_missing: true    # completa viento/presión faltantes del proveedor usa (TCTracks.from_ibtracs_netcdf)
-  dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (OQ-CAL-05)
-  riverflood:
-    depth_nc: null          # elegir en /digest entre los ISIMIP2a congelados en data/isimip/ (protección none|flopros)
-    fraction_nc: null
+  dem_path: dem/SRTM15+V2_Mexico.tif   # relativo a data root; congelado con procedencia (CAL-SURGE-02)
+  dem_buffer_grados: 0.1    # buffer costero del recorte al polígono 00ent: evita nodata en centroides
+                            # costeros que petals descartaría en silencio (CAL-SURGE-02)
 
 exposure:                   # CAL-EXP-01/03 (ruta B); resolución a ratificar en /digest
   resolucion_arcsec: 150    # 150 as ≈ 4.6 km: timestep test mostró 150≈300 en viento; surge pide fino
@@ -43,8 +42,7 @@ fuentes_externas:
   cenapred_consolidados: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CENAPRED/consolidados
   ibtracs_crudos: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_IBTrACS/crudos
   ibtracs_nc: ~/climada/data/IBTrACS.ALL.v04r01.nc   # caché CLIMADA, congelado tal cual (date_created interno 2025-08-22)
-  dem_mexico: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/Raster_Topografia/SRTM15+V2_Mexico.tif
-  dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: solo su sha256 en la procedencia del recorte, no se copia
+  dem_global: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares/SRTM15+V2.tiff   # 3.4 GB: origen del recorte congelado (freeze_dem); solo su sha256 viaja en la procedencia
   isimip_dir: /Users/lescobarfarfan/Library/Mobile Documents/com~apple~CloudDocs/Data_Backup/climada_accute_risks/auxiliares   # .nc ISIMIP2b RCP: pin en sitio, no se copian a data/
   isimip_hist: /Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_ISIMIP/crudos   # ISIMIP2a histórico (gswp3, 1971-2010): se congela en data/isimip/
   marco_geoestadistico: /Users/lescobarfarfan/Documents/projects/catalogos/mapas/INEGI/nacional   # 00ent.* (entidades); se congela en data/marco_geoestadistico/

@@ -11,6 +11,8 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[litpop-exposure]] — exposición LitPop MEX ruta B (`CAL-EXP-01/03`): 150 as, 100k centroides, claves estatales INEGI; la malla definitiva existe.
 - [[hazard-tc-generation]] — hazards TC congelados (`DC-CAL-HAZ-1` parcial): `haz_tc.h5` + `haz_rain.h5`, 540 tormentas 2000–2024 sobre la malla definitiva; desbloquea `OQ-CAL-02`.
 - [[crosswalk-v1-hazard-side]] — crosswalk v1 (`CAL-XWALK-01/02`): huellas estatales, cono de lluvia 50 mm, desambiguación por huella; cola v0 68→17, 123/220 mixtas resueltas.
+- [[hazard-surge-generation]] — hazard marejada congelado (`CAL-SURGE-01/02`): `haz_surge.h5`, 79 eventos con intensidad; caveat costero del DEM cerrado (bbox + fillnodata, 251→0 nodata).
+- [[hazard-rf-isimip]] — huellas fluviales ISIMIP2a congeladas (`CAL-RF-02`): `haz_rf_{none,flopros}.h5` 2000–2010; insumos estáticos GloFAS congelados (`OQ-CAL-17` queda solo en cómputo).
 
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.
