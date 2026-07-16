@@ -45,6 +45,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 - **GloFAS** — Global Flood Awareness System; GloFAS-ERA5 daily discharge reanalysis (1979–present) covers panel years 2011–2015 (`CAL-RF-03`).
 - **EWDS** — CEMS Early Warning Data Store (ewds.climate.copernicus.eu); serves the `cems-glofas-*` datasets (migrated from the CDS; same ECMWF token, own licences incl. CEMS-FLOODS).
 - **FLOPROS** — global database of flood protection standards; the `flopros` protection variant of ISIMIP2a/`rf_glofas` footprints (`OQ-CAL-16`).
+- **`rf_glofas`** — petals module turning GloFAS discharge into flood footprints (annual max → Gumbel return period → JRC hazard-map interpolation → FLOPROS protection); serves RF 2011–2015 (`OQ-CAL-17`). Static inputs frozen in `data/glofas/auxiliares/`.
 - **`_procedencia.json`** — per-artifact provenance sidecar (`CAL-GEN-02`).
 - **Consolidados CENAPRED** — the four frozen outputs of the climateCCR pipeline (panel año×estado×peril, eventos, multiestado, catálogo); the CENAPRED interface of this repo (`CAL-TARGET-04`), 2000–2015.
 - **`freeze_copy`** — `impactcal.infra.freeze`: idempotent copy of external inputs into `data/<fuente>/` with sha256 verification + provenance sidecar (`CAL-GEN-02/12`).
@@ -78,6 +79,10 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | Timestep re-confirmation | **re-confirmación malla definitiva 0.5 h se sostiene outlier Colima 0.64 landfall Patricia** |
 | The frozen TC hazards | **haz_tc haz_rain generación 540 tormentas universo near-Mexico bbox estimate_missing temporada_max 2024 H08 R-CLIPER caché hash restaurada** |
 | Crosswalk v1 hazard-side | **crosswalk v1 huellas estatales cono lluvia 50 mm umbral desambiguación candidatos por huella fuzzy Julette tormenta_sin_perdida solo hazard 123 mixtas resueltas** |
+| The DEM nodata fix | **DEM bbox crop fillnodata lagunas Ojo de Liebre Términos Clarión petals descarta en silencio chequeo costero 251 a 0 huecos raster pineado** |
+| The frozen surge hazard | **haz_surge bañera Xu decaimiento 0.2 m/km SLR 0 herencia haz_tc 79 eventos máximo 5.79** |
+| The frozen RF footprints | **haz_rf none flopros ISIMIP2a 2000-2010 celda a celda saneador NaN CaMa frequency sin significado dos artefactos** |
+| The GloFAS aux freeze | **auxiliares rf_glofas flood-maps gumbel-fit MD5 DSpace URL petals rota HTML FLOPROS ediciones 641667 726304 v4.0** |
 
 ---
 
