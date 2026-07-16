@@ -14,8 +14,8 @@ IDs `OQ-CAL-NN`; gating items first.
 - `OQ-CAL-07` **Zeros / deductible censoring** in the likelihood (`CAL-BAYES-03`): hurdle vs left-censoring; ruta A deductible floor per line of business?
 - `OQ-CAL-09` **Regional grouping g(s)** for hyperpriors (`CAL-BAYES-03`): confirm the 5-group proposal (Pacífico Sur / Pacífico Norte-BC / Golfo / Yucatán / Interior) against track climatology; document assignment table.
 - `OQ-CAL-10` **Joint multi-peril surface** (`CAL-BAYES-02`): coarse-grid resolution for `(v_half, κ_surge, κ_rain)`; refinement strategy after the exploratory run.
-- `OQ-CAL-16` **RF protection level** (`CAL-RF-02`): `none` vs `flopros` in the likelihood — both variants frozen; decide with data (flopros = real protection standards, but coarse for Mexico; the equivalent choice exists in `rf_glofas` output, so it applies uniformly to both segments).
-- `OQ-CAL-17` **GloFAS footprint pipeline + segment consistency** (`CAL-RF-03`): compute 2011–2015 footprints with petals `rf_glofas` (setup: JRC hazard maps + FLOPROS + Gumbel fits); before mixing ISIMIP2a (2000–2010) and GloFAS (2011–2015) segments in one likelihood, run the consistency check on overlap years (both available 1979–2010).
+- `OQ-CAL-16` **RF protection level** (`CAL-RF-02`): `none` vs `flopros` in the likelihood — both variants frozen, now also as hazards (`haz_rf_{none,flopros}.h5`); decide with data (flopros = real protection standards, but coarse for Mexico; the equivalent choice exists in `rf_glofas` output, so it applies uniformly to both segments).
+- `OQ-CAL-17` **GloFAS footprint pipeline + segment consistency** (`CAL-RF-03`): every input is frozen (crudos 2011–2015; static aux 2026-07-16: `flood-maps.nc`, `gumbel-fit.nc`, FLOPROS). Remaining: (a) compute the 2011–2015 footprints with petals `rf_glofas` (daily discharge → annual max → Gumbel return period → JRC map interpolation → protección `none`/`flopros`) on the shared centroids; (b) consistency check vs ISIMIP2a on overlap years (both methodologies coexist 1979–2010) **before** mixing segments in one likelihood; (c) Gumbel-fit edition: frozen 1979–2015 (hdl:20.500.11850/641667, the one petals references) vs 1979–2023 (hdl:20.500.11850/726304) — decide by consistency with the GloFAS-ERA5 **v4.0** discharge.
 
 ## Data & provenance
 
@@ -25,7 +25,7 @@ IDs `OQ-CAL-NN`; gating items first.
 
 ## References (§99)
 
-- `OQ-CAL-08` Verify before manuscript: `[Xu2010]` exact venue; `[Sauer2021-ref?]` DOI/title; `[Hazus-ref?]` current edition; `[Wagenaar2018-ref?]` journal. (`REFERENCES.md` §99.)
+- `OQ-CAL-08` Verify before manuscript: `[Xu2010]` exact venue; `[Sauer2021-ref?]` DOI/title; `[Hazus-ref?]` current edition; `[Wagenaar2018-ref?]` journal; `[Dottori2016-ref?]` exact citation of the JRC flood hazard maps; `[Scussolini2016-ref?]` authors/pages; `[GumbelGloFAS-ref?]` dataset authors/DOI. (`REFERENCES.md` §99.)
 
 ## Housekeeping / integration
 

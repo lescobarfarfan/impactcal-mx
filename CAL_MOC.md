@@ -20,6 +20,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[2026-07-14_hazard-freeze-exposures]] — hazard-freeze checklist (`OQ-CAL-15`) + insumo RF dos-segmentos + exposición LitPop (malla definitiva).
 - [[2026-07-14_hazard-tc-generation]] — hazards TC congelados: universo near-Mexico (`CAL-HAZ-SHARED-02`), H08 + R-CLIPER v0, referencias de respaldo.
 - [[2026-07-14_crosswalk-v1]] — crosswalk v1: escala física del cono 50 mm, analogía EM-DAT para la máscara de inclusión, límite de los best-tracks.
+- [[2026-07-16_hazard-surge-rf]] — hazards surge + RF congelados: relación Xu viento-marejada, descarte silencioso de petals, ISIMIP2a vs GloFAS y las ediciones del ajuste Gumbel.
 
 ## Canon shortcuts
 [[DECISIONS]] · [[DATA_CONTRACTS]] · [[OPEN_QUESTIONS]]

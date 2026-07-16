@@ -54,12 +54,13 @@ Bulk data outside the repo? `export IMPACTCAL_DATA_ROOT=/path/to/data` (see `CAL
 
 ## Status & next steps
 
-Sequence (master doc §10): **1. crosswalk ✅ v0** (loss-side, `CAL-XWALK-03/04`; hazard-side v1 =
-`OQ-CAL-02`) → **2. timestep ✅ 0.5 h** (`CAL-WIND-02`, [[timestep-convergence-test]]) →
-**freeze hazards** (← current, checklist `OQ-CAL-15`) → 3. exposures → 4. target tables (source
-frozen, `CAL-TARGET-04`) →
-5. national null model (`climada.util.calibrate`) → 6. precomputed surfaces → PyMC hierarchical
-(wind) → 7. multi-peril joint → 8. fluvial → 9. validation → export.
+Sequence (master doc §10): **1. crosswalk ✅ v1** (hazard-side, `CAL-XWALK-03/04`) →
+**2. timestep ✅ 0.5 h** (`CAL-WIND-02`, [[timestep-convergence-test]]) → **hazards ✅ frozen**
+(four perils on the shared grid, `DC-CAL-HAZ-1`; RF gap 2011–2015 = GloFAS compute,
+`OQ-CAL-17`) → **3. exposures ✅** (`CAL-EXP-04`) → **4. target tables** (← current; source
+frozen, `CAL-TARGET-04`) → 5. national null model (`climada.util.calibrate`) →
+6. precomputed surfaces → PyMC hierarchical (wind) → 7. multi-peril joint → 8. fluvial →
+9. validation → export.
 
 ## Related
 [[_INDEX]] · [[00_README_CONTEXT]] · [[CAL_MOC]]
