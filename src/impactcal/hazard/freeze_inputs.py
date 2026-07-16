@@ -1,8 +1,10 @@
 """Static surge/riverflood input pinning (OQ-CAL-05, OQ-CAL-06 → OQ-CAL-15).
 
-DEM: freezes the Mexico-clipped SRTM15+ V2 GeoTIFF (input of
-`TCSurgeBathtub.from_tc_winds`, CAL-SURGE-01) into `data/dem/`, recording the
-derivation chain (global raster sha256 + clip notebook) in its provenance.
+DEM: clips the pinned global SRTM15+ V2 to the buffered national polygon
+(input of `TCSurgeBathtub.from_tc_winds`, CAL-SURGE-01/02) into `data/dem/`,
+recording the derivation chain (global raster + marco sha256, buffer) in its
+provenance. The buffer keeps shoreline/island topo-bathymetry so surge never
+samples nodata at coastal centroids.
 
 ISIMIP2b RCP flood files: pinned **in place** (sidecar next to each `.nc`),
 not copied — RCP projections (2006–2100, GCM weather) cannot serve the
@@ -31,9 +33,14 @@ from impactcal.infra.provenance import _sha256, verify_provenance, write_provena
 _FUENTE_DEM = "SRTM15+ V2 (15 arcsec global), recorte México [Tozer2019]"
 
 _DERIVACION_DEM = (
-    "Recorte del raster global al polígono nacional (INEGI Marco Geoestadístico 00ent, "
-    "EPSG:4326) vía rasterio.mask, sin remuestreo, GTiff LZW tiled; notebook "
-    "Procesa_Raster_Altitud.ipynb junto al artefacto de origen."
+    "Recorte rectangular del raster global al bbox del polígono nacional (INEGI Marco "
+    "Geoestadístico 00ent congelado, EPSG:4326) con buffer de {buffer} grados, lectura por "
+    "ventana sin máscara ni remuestreo, GTiff LZW tiled (impactcal.hazard.freeze_inputs."
+    "freeze_dem). Los huecos nodata dispersos del raster origen ({n_huecos} celdas, lagunas "
+    "costeras e islas: Ojo de Liebre, Términos, Clarión) se rellenan por interpolación de "
+    "vecinos (rasterio.fill.fillnodata) — cualquier nodata en el DEM hace que petals descarte "
+    "centroides costeros en silencio (CAL-SURGE-02); la máscara exacta v0 agravaba esto en "
+    "todo el litoral."
 )
 
 _FUENTE_ISIMIP = (
@@ -79,17 +86,67 @@ def _isimip_extra(nc: Path) -> dict[str, str]:
 
 
 def freeze_dem(
-    dem_mx: Path, dem_global: Path | None, dest_dir: Path, *, force: bool = False
+    dem_global: Path,
+    marco_shp: Path,
+    dest_dir: Path,
+    *,
+    buffer_grados: float = 0.1,
+    force: bool = False,
 ) -> Path:
-    """Freeze the Mexico DEM clip with its derivation chain in the provenance."""
-    dest = dest_dir / dem_mx.name
+    """Crop the pinned global SRTM15+ to the buffered national bbox and freeze it.
+
+    Rectangular window (no polygon mask) + neighbor-interpolation fill of the source
+    raster's sparse nodata holes: the frozen DEM carries a real elevation in every cell,
+    so surge generation can never sample nodata at wind-affected centroids — petals
+    silently drops those (CAL-SURGE-02).
+    """
+    dest = dest_dir / "SRTM15+V2_Mexico.tif"
     if not force and verify_provenance(dest):
         return dest
-    extra: dict[str, str] = {"derivacion": _DERIVACION_DEM}
-    if dem_global is not None and dem_global.exists():
-        extra["origen_global"] = str(dem_global.resolve())
-        extra["origen_global_sha256"] = _sha256(dem_global)
-    return freeze_copy(dem_mx, dest_dir, source=_FUENTE_DEM, force=force, **extra)
+    if not verify_provenance(marco_shp):
+        raise RuntimeError(f"Marco Geoestadístico corrupto o sin procedencia: {marco_shp}")
+
+    import geopandas as gpd
+    import numpy as np
+    import rasterio
+    import rasterio.fill
+    import rasterio.windows
+
+    bounds = gpd.read_file(marco_shp).to_crs("EPSG:4326").total_bounds
+    bounds += buffer_grados * np.array([-1.0, -1.0, 1.0, 1.0])
+    with rasterio.open(dem_global) as src:
+        window = rasterio.windows.from_bounds(*bounds, transform=src.transform)
+        out = src.read(1, window=window)
+        meta = src.meta | {
+            "height": out.shape[0],
+            "width": out.shape[1],
+            "transform": src.window_transform(window),
+            "driver": "GTiff",
+            "compress": "lzw",
+            "tiled": True,
+        }
+    n_huecos = int(np.isnan(out).sum())
+    if n_huecos:
+        out = rasterio.fill.fillnodata(out, mask=~np.isnan(out), max_search_distance=100)
+    if np.isnan(out).any():
+        raise RuntimeError(
+            f"quedan {int(np.isnan(out).sum())} celdas nodata tras el relleno: "
+            "huecos mayores que max_search_distance en el raster origen"
+        )
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    with rasterio.open(dest, "w", **meta) as dst:
+        dst.write(out, 1)
+    write_provenance(
+        dest,
+        source=_FUENTE_DEM,
+        derivacion=_DERIVACION_DEM.format(buffer=buffer_grados, n_huecos=n_huecos),
+        buffer_grados=buffer_grados,
+        n_huecos_rellenados=n_huecos,
+        origen_global=str(dem_global.resolve()),
+        origen_global_sha256=_sha256(dem_global),
+        marco_00ent_sha256=_sha256(marco_shp),
+    )
+    return dest
 
 
 def isimip_files(isimip_dir: Path) -> list[Path]:
@@ -151,8 +208,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", type=Path, default=None)
     args = parser.parse_args(argv)
 
-    fuentes = load_config(args.config)["fuentes_externas"]
-    dem_mx = Path(fuentes["dem_mexico"]).expanduser()
+    config = load_config(args.config)
+    fuentes = config["fuentes_externas"]
     dem_global = Path(fuentes["dem_global"]).expanduser()
     isimip_dir = Path(fuentes["isimip_dir"]).expanduser()
     isimip_hist = Path(fuentes["isimip_hist"]).expanduser()
@@ -161,12 +218,18 @@ def main(argv: list[str] | None = None) -> int:
     isimip_dest_dir = data / "isimip"
 
     if args.modo == "verificar":
-        estado = verify_inputs(dem_dest_dir / dem_mx.name, isimip_dir, isimip_dest_dir)
+        estado = verify_inputs(dem_dest_dir / "SRTM15+V2_Mexico.tif", isimip_dir, isimip_dest_dir)
         for nombre, ok in estado.items():
             print(f"{'OK ' if ok else 'FALLA'} {nombre}")
         return 0 if all(estado.values()) else 1
 
-    dem = freeze_dem(dem_mx, dem_global, dem_dest_dir, force=args.forzar)
+    dem = freeze_dem(
+        dem_global,
+        data / "marco_geoestadistico" / "00ent.shp",
+        dem_dest_dir,
+        buffer_grados=float(config["hazard"]["dem_buffer_grados"]),
+        force=args.forzar,
+    )
     print(f"congelado: {dem}")
     for nc in pin_isimip(isimip_dir, force=args.forzar):
         print(f"pin en sitio: {nc}")

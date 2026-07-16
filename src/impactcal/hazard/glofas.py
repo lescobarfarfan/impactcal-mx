@@ -5,12 +5,18 @@ Store (dataset `cems-glofas-historical`, GloFAS-ERA5 reanalysis 1979-present,
 doi:10.24381/cds.a4fdd6b9) over the Mexico bbox, one NetCDF per year, into
 `data/glofas/crudos/` with `_procedencia.json` recording the full request.
 Requires the ECMWF token in `~/.cdsapirc` (shared with CDS) and the EWDS
-dataset licences accepted. Footprint computation (petals `rf_glofas`) is a
-separate, later step.
+dataset licences accepted.
+
+`--modo auxiliares` freezes the static inputs of the petals `rf_glofas`
+inundation pipeline (OQ-CAL-17) into `data/glofas/auxiliares/`: the merged
+JRC global flood hazard maps, the FLOPROS protection-standards shapefile and
+the precomputed GloFAS Gumbel fits. The footprint computation itself
+(discharge → return period → inundation, 2011-2015) is the remaining step of
+OQ-CAL-17.
 
 CLI::
 
-    python -m impactcal.hazard.glofas [--modo descargar|verificar] [--forzar] [--config RUTA]
+    python -m impactcal.hazard.glofas [--modo descargar|verificar|auxiliares] [--forzar]
 """
 
 from __future__ import annotations
@@ -30,6 +36,49 @@ _FUENTE = (
     "GloFAS-ERA5 river discharge reanalysis (CEMS Early Warning Data Store, "
     "doi:10.24381/cds.a4fdd6b9) [ref? -> REFERENCES §99]"
 )
+
+_FUENTE_JRC = (
+    "JRC global river flood hazard maps rp{10,20,50,100,200,500}, fusionados por petals "
+    "setup_flood_hazard_maps [ref? -> REFERENCES §99]"
+)
+_FUENTE_FLOPROS = (
+    "FLOPROS: an evolving global database of flood protection standards "
+    "(doi:10.5194/nhess-16-1049-2016) [ref? -> REFERENCES §99]"
+)
+_FUENTE_GUMBEL = (
+    "Ajustes Gumbel precomputados de descarga GloFAS (ETH Research Collection, "
+    "hdl:20.500.11850/641667, dato companion de petals rf_glofas) [ref? -> REFERENCES §99]"
+)
+
+
+def download_aux(dest_dir: Path, *, force: bool = False) -> list[Path]:
+    """Freeze the static rf_glofas inputs (JRC maps, Gumbel fits, FLOPROS) with provenance."""
+    from climada_petals.hazard.rf_glofas import setup
+
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    out = []
+
+    flood_nc = dest_dir / "flood-maps.nc"
+    if force or not verify_provenance(flood_nc):
+        setup.setup_flood_hazard_maps(dest_dir / "flood-maps-tif", output_dir=dest_dir)
+        write_provenance(flood_nc, source=_FUENTE_JRC, urls=setup.JRC_FLOOD_HAZARD_MAPS)
+    out.append(flood_nc)
+
+    gumbel_nc = dest_dir / "gumbel-fit.nc"
+    if force or not verify_provenance(gumbel_nc):
+        setup.download_gumbel_fit(dest_dir)
+        write_provenance(gumbel_nc, source=_FUENTE_GUMBEL, url=setup.GUMBEL_FIT_DATA)
+    out.append(gumbel_nc)
+
+    flopros_dir = dest_dir / "FLOPROS_shp_V1"
+    shps = sorted(flopros_dir.glob("*.shp"))
+    if force or not shps or not verify_provenance(shps[0]):
+        setup.download_flopros_database(dest_dir)
+        (shp,) = sorted(flopros_dir.glob("*.shp"))
+        write_provenance(shp, source=_FUENTE_FLOPROS, url=setup.FLOPROS_DATA)
+        shps = [shp]
+    out.append(shps[0])
+    return out
 
 
 def build_request(anio: int, cfg: dict[str, Any]) -> dict[str, Any]:
@@ -87,13 +136,20 @@ def verify_glofas(cfg: dict[str, Any], dest_dir: Path) -> dict[str, bool]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--modo", choices=["descargar", "verificar"], default="descargar")
+    parser.add_argument(
+        "--modo", choices=["descargar", "verificar", "auxiliares"], default="descargar"
+    )
     parser.add_argument("--forzar", action="store_true", help="re-descarga aunque verifique")
     parser.add_argument("--config", type=Path, default=None)
     args = parser.parse_args(argv)
 
     cfg = load_config(args.config)["glofas"]
     dest_dir = ProjectPaths().data / "glofas" / "crudos"
+
+    if args.modo == "auxiliares":
+        for p in download_aux(ProjectPaths().data / "glofas" / "auxiliares", force=args.forzar):
+            print(f"congelado: {p}")
+        return 0
 
     if args.modo == "verificar":
         estado = verify_glofas(cfg, dest_dir)
