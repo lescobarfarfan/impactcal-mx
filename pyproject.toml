@@ -16,6 +16,7 @@ dependencies = [
 [project.optional-dependencies]
 climada = ["climada", "climada-petals", "geopandas"]   # heavy stack; install via conda env (environment.yml) in practice
 bayes = ["pymc", "arviz"]
+inspeccion = ["matplotlib", "ydata-profiling"]
 dev = ["pytest", "ruff", "black", "pre-commit"]
 
 [tool.setuptools.packages.find]
