@@ -9,7 +9,7 @@ Subnational CLIMADA impact-function calibration for Mexico. Start here.
 [[CAL_MOC]] — map of content (theory, pipelines, reading)
 
 ## Repository
-[[README]] · [[REPO_STRUCTURE]] · [[OBSIDIAN_SETUP]] · `CLAUDE.md`
+[[README]] · [[REPO_STRUCTURE]] · [[OBSIDIAN_SETUP]] · [[CLAUDE]]
 
 ## The design
 [[Calibracion_Impacto_Mexico_Master]] — full-prose design: decisions D1–D13, formulas, flow, references.
