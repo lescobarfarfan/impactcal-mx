@@ -385,6 +385,10 @@ def barrido_magnitud(em: pd.DataFrame, si: pd.DataFrame) -> pd.DataFrame:
 def propuesta_renglones(em: pd.DataFrame, si: pd.DataFrame) -> pd.DataFrame:
     """Renglones del crudo cuya superficie ÷1000 devuelve el implícito a banda plausible."""
     props = []
+    # renglones ya corregidos por limpieza_cnsf (consolidados *_corregida.csv): no re-proponer
+    for df in (em, si):
+        if "dq_correccion" in df.columns:
+            df.drop(df.index[df["dq_correccion"].fillna("") != ""], inplace=True)
     em_n = em[_ascii_upper(em["MONEDA"].fillna("")) == "NACIONAL"]
     sup, monto = em_n[SUP_EM], em_n["SUMA ASEGURADA"]
     v = monto / sup.where(sup > 0)
@@ -440,7 +444,11 @@ def escribir_resumen(hz: pd.DataFrame, props: pd.DataFrame) -> str:
         "# Revisión de calidad — CNSF agrícola (emisión + siniestros, 2008-2024)",
         "",
         "Barrido sistemático de los consolidados; generaliza el hallazgo Maíz dulce/Sinaloa/2015.",
-        "**Nada se ha modificado**: cada grupo lista su acción propuesta, a aprobar item por item.",
+        "**Estado 2026-07-18: correcciones aprobadas y APLICADAS en climateCCR** — 915 renglones",
+        "(÷1000 superficies y ÷FIX sumas 2022-2024) vía `limpieza_cnsf.py` §6 +",
+        "`corregir_consolidados_agricola.py`, en copia (`*_corregida.csv` + `_correcciones_dq.csv`);",
+        "caveat completo en `referencias_riesgo_catastrofico.md` §4 (v0.19) y",
+        "`detalle_suma_inflada_2022_2024.md` §4. Este reporte describe los consolidados CRUDOS.",
         f"Consolidados leídos de `{DATA_DIR}`.",
         "",
         f"**Total hallazgos: {len(hz)}** · propuestas de corrección ÷1000 a nivel renglón: "

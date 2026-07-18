@@ -63,6 +63,28 @@ Firma "suma inflada" a nivel renglón (base agrícola Nacional, sup ≥ 10 ha): 
   anual como aproximación documentada; (c) verificación externa (CNSF/aseguradora) antes de
   corregir. La firma es filtrable: `MXN/ha > 200k & tasa < 0.5%` (+ `anio ≥ 2022`).
 
+## 4. Resolución (2026-07-18): correcciones aplicadas en climateCCR
+
+Aprobado por el usuario y aplicado el mismo día. **915 correcciones** en copia
+(`emision_corregida.csv` / `siniestros_corregida.csv` + auditoría `_correcciones_dq.csv`,
+originales intactos), codificadas en `limpieza_cnsf.py` §6 y aplicadas por
+`corregir_consolidados_agricola.py`:
+
+- **÷1000 superficies**: 25 renglones emisión + 97 siniestros (regla extendida: monto/ha
+  imposiblemente bajo sin piso, y monto 0 con superficie >10× la asegurada corregida de la
+  celda — captura Sinaloa maíz dulce siniestros 2015, Guanajuato trigo/espárrago, Nayarit
+  arroz 540k ha).
+- **÷FIX sumas 2022–2024**: 793 renglones (631 por firma tasa<0.5% + 162 por ≥5× la mediana
+  histórica propia con prima≤0). FIX promedio del periodo, Banxico (Informe Anual,
+  compilación 2024): 20.1274 / 17.7587 / 18.3049. **132 renglones de firma débil sin
+  corregir** (revisión manual pendiente).
+
+Verificación: re-barrido sobre las copias corregidas → `B1_superficie_mayor_al_estado` 11→0,
+`B2_alto` 2022+ 426→251 (los restantes = firma débil no corregida + celdas legítimas de alto
+valor), Sinaloa maíz dulce sin flags críticos (solo nota estadística B5 por el año grande
+2015, ya plausible: 6,885 ha, 61 pólizas, 41k MXN/ha). Caveat de interpretación completo:
+climateCCR `referencias_riesgo_catastrofico.md` §4, recuadro agrícola (changelog v0.19).
+
 ## Related
 [[resumen_hallazgos]] · `scraps/cnsf_outliers_corn_sinaloa/FUENTES_maiz_dulce_sinaloa_2015.md`
 #arm/cal #type/scrap

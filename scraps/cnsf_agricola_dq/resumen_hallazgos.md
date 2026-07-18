@@ -1,7 +1,11 @@
 # Revisión de calidad — CNSF agrícola (emisión + siniestros, 2008-2024)
 
 Barrido sistemático de los consolidados; generaliza el hallazgo Maíz dulce/Sinaloa/2015.
-**Nada se ha modificado**: cada grupo lista su acción propuesta, a aprobar item por item.
+**Estado 2026-07-18: correcciones aprobadas y APLICADAS en climateCCR** — 915 renglones
+(÷1000 superficies y ÷FIX sumas 2022-2024) vía `limpieza_cnsf.py` §6 +
+`corregir_consolidados_agricola.py`, en copia (`*_corregida.csv` + `_correcciones_dq.csv`);
+caveat completo en `referencias_riesgo_catastrofico.md` §4 (v0.19) y
+`detalle_suma_inflada_2022_2024.md` §4. Este reporte describe los consolidados CRUDOS.
 Consolidados leídos de `/Users/lescobarfarfan/Documents/projects/Thesis_MScQF/climateCCR/data/hazard_mx/datos_CNSF/consolidados/agricola_y_animales`.
 
 **Total hallazgos: 2133** · propuestas de corrección ÷1000 a nivel renglón: 113 (`renglones_correccion_propuesta.csv`)
