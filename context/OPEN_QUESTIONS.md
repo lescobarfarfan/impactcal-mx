@@ -19,13 +19,13 @@ IDs `OQ-CAL-NN`; gating items first.
 
 ## Data & provenance
 
-- `OQ-CAL-11` **CNSF sums-insured availability**: confirm sumas aseguradas per state-year are extractable at the needed grain from the existing pipeline (`DC-CAL-TARGET-3`); else define ruta A exposure fallback.
+- `OQ-CAL-11` **CNSF sums-insured availability**: confirm sumas aseguradas per state-year are extractable at the needed grain from the existing pipeline (`DC-CAL-TARGET-3`); else define ruta A exposure fallback. **Cleaning prerequisite found 2026-07-18** (`CAL-GEN-14` run; hallazgos in `results/inspeccion/cnsf_{emision,siniestros}/`): a ×1000 magnitude-error cluster beyond Maíz dulce Sinaloa 2015 (Sonora Pepino, Guanajuato Cebolla/Espárrago, Puebla Manzano, Michoacán Aguacate, Chiapas Maíz —siniestros—, Zacatecas Avena forrajera, primas escalando junto con superficie) **and** year-block entity-case variants (`SINALOA` 2012–2015 vs `Sinaloa`) that silently split groupbys — define the label-normalization + `error_probable`-cell rule before any ruta A use.
 - `OQ-CAL-14` **CENAPRED panel 2016–2023**: the frozen machine-readable series ends in 2015 (`CAL-TARGET-04`); the structured captures of the extenso PDFs (protocol in climateCCR `cenapred.md` §6bis, PDFs already in hand) must be done upstream and re-ingested to cover the full `CAL-TARGET-02` period; 2024 = only real gap (extenso unpublished).
 - `OQ-CAL-18` **Marco Geoestadístico edition** (`CAL-EXP-04`, `DC-CONV-5`): the local `00ent` shapefile carries no version metadata — identify the INEGI MG edition (year) and record it in the frozen provenance.
 
 ## References (§99)
 
-- `OQ-CAL-08` Verify before manuscript: `[Xu2010]` exact venue; `[Sauer2021-ref?]` DOI/title; `[Hazus-ref?]` current edition; `[Wagenaar2018-ref?]` journal; `[Dottori2016-ref?]` exact citation of the JRC flood hazard maps; `[Scussolini2016-ref?]` authors/pages; `[GumbelGloFAS-ref?]` dataset authors/DOI. (`REFERENCES.md` §99.)
+- `OQ-CAL-08` Verify before manuscript: `[Xu2010]` exact venue; `[Sauer2021-ref?]` DOI/title; `[Hazus-ref?]` current edition; `[Wagenaar2018-ref?]` journal; `[Dottori2016-ref?]` exact citation of the JRC flood hazard maps; `[Scussolini2016-ref?]` authors/pages; `[GumbelGloFAS-ref?]` dataset authors/DOI; `[Leys2013-ref?]` DOI/pages (MAD robust z, `CAL-GEN-14`). (`REFERENCES.md` §99.)
 
 ## Housekeeping / integration
 
