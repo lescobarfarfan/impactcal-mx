@@ -53,6 +53,11 @@ graph**: wikilinks by basename (`[[DECISIONS]]`, `[[CAL_MOC]]`); every note ends
   `impactcal.infra.ProjectPaths`; amounts in current MXN, INPC deflation downstream.
 - **Calibration only runs against frozen inputs** (`CAL-GEN-12`): hazards from HDF5 + verified
   `_procedencia.json`; never regenerate hazards inside a calibration.
+- **Data QA on every new source (`CAL-GEN-14`):** when a new dataset enters the project, run
+  `python -m impactcal.inspeccion <tabla> --tiempo … --grupo … --razon …` (robust
+  outlier/consistency inspection; outputs in untracked `results/inspeccion/<fuente>/`) and
+  resolve its `error_probable` findings **before** the data feeds any pipeline. Remind me if I
+  add a data source without doing this.
 - **Bilingual boundary (`CAL-GEN-08`):** public Python APIs in English; Spanish data identifiers,
   CLI flags, institution and peril names kept **verbatim**.
 - **Diagrams in Mermaid**, never ASCII box art; file trees stay plain code blocks.

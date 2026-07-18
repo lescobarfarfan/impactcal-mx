@@ -49,6 +49,8 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 - **`_procedencia.json`** — per-artifact provenance sidecar (`CAL-GEN-02`).
 - **Consolidados CENAPRED** — the four frozen outputs of the climateCCR pipeline (panel año×estado×peril, eventos, multiestado, catálogo); the CENAPRED interface of this repo (`CAL-TARGET-04`), 2000–2015.
 - **`freeze_copy`** — `impactcal.infra.freeze`: idempotent copy of external inputs into `data/<fuente>/` with sha256 verification + provenance sidecar (`CAL-GEN-02/12`).
+- **`impactcal.inspeccion`** — generic dataset-QA inspector run on every new data source (`CAL-GEN-14`): robust MAD z global/per group×time, log-ratio unit-error checks, categorical near-duplicates, systematic missingness, coverage; outputs `results/inspeccion/<fuente>/` (untracked).
+- **Triaje de hallazgos** — the label each QA finding carries: `error_probable` / `atipico_a_revisar` / `inconsistencia_estructural`; determines whether a cell is corrected, domain-reviewed, or fixed in pipeline (`CAL-GEN-14`).
 
 ## J. Content-word retrieval index
 
@@ -83,6 +85,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | The frozen surge hazard | **haz_surge bañera Xu decaimiento 0.2 m/km SLR 0 herencia haz_tc 79 eventos máximo 5.79** |
 | The frozen RF footprints | **haz_rf none flopros ISIMIP2a 2000-2010 celda a celda saneador NaN CaMa frequency sin significado dos artefactos** |
 | The GloFAS aux freeze | **auxiliares rf_glofas flood-maps gumbel-fit MD5 DSpace URL petals rota HTML FLOPROS ediciones 641667 726304 v4.0** |
+| The data-QA inspector | **inspeccion QA fuente nueva atipicos robustos MAD triaje error_probable razon MXN por hectarea unidades Maiz dulce cluster x1000 SINALOA mayusculas** |
 
 ---
 

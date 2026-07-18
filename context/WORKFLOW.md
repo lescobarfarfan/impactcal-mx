@@ -54,6 +54,7 @@ Name the real topic; the §J index in `GLOSSARY.md` has ready-made phrases.
 
 ## 4. Reproducibility checklist (per run)
 
+- [ ] New data source since the last run? `python -m impactcal.inspeccion` executed on it, hallazgos triaged, `error_probable` cells resolved **before** it enters any pipeline (`CAL-GEN-14`).
 - [ ] Seed set once via `set_seed`; PyMC gets `random_seed=` derived from it (`CAL-GEN-04`).
 - [ ] Manifest written (`RunManifest`) before results are read (`CAL-GEN-05`).
 - [ ] Inputs frozen: hazards HDF5 + provenance verified; config resolved from `configs/` (`CAL-GEN-12`).
