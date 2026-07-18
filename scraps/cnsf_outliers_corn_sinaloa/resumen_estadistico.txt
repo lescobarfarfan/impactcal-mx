@@ -1,0 +1,356 @@
+# Resumen estadístico — Maíz dulce, CNSF agrícola 2008-2024
+
+Sinaloa, superficie asegurada (ha):  2015=6,104,409 | mediana otros años=621.5 | MAD=169.5 | z-robusta=24,289 | ratio 2015/mediana=9,822x
+Sinaloa, superficie siniestrada (ha): 2015=3,809,613 | mediana otros años=72.0 | MAD=37.0 | z-robusta=69,447 | ratio 2015/mediana=52,911x
+Sinaloa, prima emitida (MXN):         2015=2,008,715 | mediana otros años=672,514.9 | MAD=255,902.9 | z-robusta=4 | ratio 2015/mediana=3x
+Sinaloa, monto pagado (MXN):          2015=832,604 | mediana otros años=67,558.3 | MAD=67,558.3 | z-robusta=8 | ratio 2015/mediana=12x
+
+Valor implícito asegurado (suma asegurada / superficie, MXN/ha), Sinaloa:
+anio
+2009     14102.0
+2010     14427.0
+2011     19111.0
+2012     25982.0
+2013     25765.0
+2014     27307.0
+2015        41.0
+2016     41531.0
+2017     42925.0
+2018     45000.0
+2019     45178.0
+2020     33427.0
+2021     28495.0
+2022    496343.0
+2023    933163.0
+2024    774503.0
+
+Celdas año x entidad x cultivo con superficie asegurada > 200,000 ha (toda la base):
+ anio        ENTIDAD_N       CULTIVO_N  SUPERFICIE ASEGURADA\n(HECTÁREAS)
+ 2015        MICHOACAN        AGUACATE                        13881008.50
+ 2016        MICHOACAN        AGUACATE                         9661229.89
+ 2015          SINALOA      MAIZ DULCE                         6104408.89
+ 2017 DISTRITO FEDERAL    OTRO CULTIVO                         5148816.90
+ 2018 DISTRITO FEDERAL    OTRO CULTIVO                         5144438.95
+ 2015       GUANAJUATO         CEBOLLA                         4311962.80
+ 2015           SONORA          SANDIA                         3311162.50
+ 2015       GUANAJUATO       ESPARRAGO                         3181400.38
+ 2015           SONORA          PEPINO                         2819009.00
+ 2015       GUANAJUATO           TRIGO                         2428456.96
+ 2012          CHIAPAS            MAIZ                         1986012.50
+ 2015           SONORA        CALABAZA                         1954930.10
+ 2014           OAXACA            MAIZ                         1947610.03
+ 2013          CHIAPAS            MAIZ                         1689764.18
+ 2014          JALISCO            MAIZ                         1627750.01
+ 2011          CHIAPAS            MAIZ                         1555052.81
+ 2010          CHIAPAS            MAIZ                         1444768.00
+ 2010         VERACRUZ            MAIZ                         1387453.00
+ 2014        MICHOACAN            MAIZ                         1372071.53
+ 2014           PUEBLA            MAIZ                         1174531.53
+ 2013           OAXACA            MAIZ                         1162066.50
+ 2014          CHIAPAS            MAIZ                         1143510.75
+ 2013         VERACRUZ            MAIZ                         1141817.75
+ 2012         VERACRUZ            MAIZ                         1134577.38
+ 2012           OAXACA            MAIZ                         1126149.48
+ 2019         GUERRERO            MAIZ                         1097851.00
+ 2014           MEXICO            MAIZ                         1084323.24
+ 2017           MEXICO            MAIZ                         1033947.41
+ 2016           PUEBLA            MAIZ                          987479.43
+ 2011         VERACRUZ            MAIZ                          975232.00
+ 2014         VERACRUZ            MAIZ                          968708.65
+ 2013           PUEBLA            MAIZ                          961030.52
+ 2017           PUEBLA            MAIZ                          958344.95
+ 2019        MICHOACAN            MAIZ                          924063.37
+ 2018           PUEBLA            MAIZ                          914449.17
+ 2015       GUANAJUATO         BROCOLI                          890935.56
+ 2013           MEXICO            MAIZ                          881436.67
+ 2018        CHIHUAHUA          FRIJOL                          874550.90
+ 2013         VERACRUZ            CANA                          841042.56
+ 2012         GUERRERO            MAIZ                          833446.00
+ 2012           MEXICO            MAIZ                          830352.77
+ 2013       TAMAULIPAS           SORGO                          816901.20
+ 2015           PUEBLA            MAIZ                          811560.40
+ 2016          CHIAPAS            MAIZ                          806898.94
+ 2017          CHIAPAS            MAIZ                          800122.70
+ 2018 ESTADO DE MEXICO            MAIZ                          797974.29
+ 2015          CHIAPAS            MAIZ                          797241.95
+ 2009         VERACRUZ            MAIZ                          786703.00
+ 2013          JALISCO            MAIZ                          768533.03
+ 2015          SINALOA           SORGO                          766931.31
+ 2018         GUERRERO            MAIZ                          745829.65
+ 2014         GUERRERO            MAIZ                          745025.00
+ 2017         GUERRERO            MAIZ                          742930.23
+ 2016         GUERRERO            MAIZ                          740927.80
+ 2014          DURANGO          FRIJOL                          732759.39
+ 2019 ESTADO DE MEXICO            MAIZ                          725119.44
+ 2009          CHIAPAS            MAIZ                          724751.00
+ 2019          TABASCO        PRADERAS                          723624.00
+ 2018          TABASCO        PRADERAS                          723624.00
+ 2016           OAXACA            MAIZ                          722138.33
+ 2018          CHIAPAS            MAIZ                          715755.58
+ 2018           OAXACA            MAIZ                          701512.17
+ 2017           OAXACA            MAIZ                          701354.79
+ 2017       GUANAJUATO    OTRO CULTIVO                          688507.55
+ 2010          HIDALGO            MAIZ                          677385.00
+ 2015          JALISCO            MAIZ                          674030.20
+ 2015           OAXACA            MAIZ                          673677.11
+ 2018          JALISCO            MAIZ                          667061.15
+ 2015         GUERRERO            MAIZ                          663096.00
+ 2016          JALISCO            MAIZ                          662520.71
+ 2011         VERACRUZ            CANA                          649184.93
+ 2013        MICHOACAN            MAIZ                          644618.13
+ 2009          HIDALGO            MAIZ                          630838.00
+ 2011           OAXACA            MAIZ                          625413.45
+ 2014        QUERETARO            MAIZ                          623725.71
+ 2010           PUEBLA            MAIZ                          617162.00
+ 2017          JALISCO            MAIZ                          606709.24
+ 2012           PUEBLA            MAIZ                          604082.80
+ 2019          JALISCO            MAIZ                          598379.27
+ 2017        MICHOACAN    OTRO CULTIVO                          590847.44
+ 2018         VERACRUZ    OTRO CULTIVO                          590602.10
+ 2014       GUANAJUATO            MAIZ                          588633.19
+ 2008          CHIAPAS            MAIZ                          588501.00
+ 2011           PUEBLA            MAIZ                          578236.00
+ 2010        ZACATECAS            MAIZ                          577923.00
+ 2013          CHIAPAS            CAFE                          574472.19
+ 2010          DURANGO          FRIJOL                          570016.00
+ 2013          HIDALGO            MAIZ                          567876.14
+ 2015           MEXICO            MAIZ                          567100.63
+ 2019          CHIAPAS            MAIZ                          562661.56
+ 2018         VERACRUZ            MAIZ                          557775.97
+ 2011        ZACATECAS          FRIJOL                          556480.00
+ 2015        MICHOACAN        LIMONERO                          550220.50
+ 2014         VERACRUZ            CANA                          549501.41
+ 2014          CHIAPAS            CAFE                          544445.83
+ 2019           OAXACA            MAIZ                          542378.83
+ 2010        CHIHUAHUA           AVENA                          541598.00
+ 2015          NAYARIT           ARROZ                          541149.50
+ 2016 ESTADO DE MEXICO            MAIZ                          536129.60
+ 2012         VERACRUZ            CANA                          535049.06
+ 2009        ZACATECAS          FRIJOL                          529888.00
+ 2014          HIDALGO            MAIZ                          520184.29
+ 2013          SINALOA            MAIZ                          519368.03
+ 2017         VERACRUZ    OTRO CULTIVO                          518637.67
+ 2019         VERACRUZ            MAIZ                          516589.06
+ 2015  SAN LUIS POTOSI           CHILE                          515198.96
+ 2016        MICHOACAN        LIMONERO                          512860.43
+ 2011         GUERRERO            MAIZ                          507466.00
+ 2014          DURANGO            MAIZ                          505707.90
+ 2013       GUANAJUATO            MAIZ                          496489.63
+ 2012         VERACRUZ            CAFE                          495000.81
+ 2023       GUANAJUATO            MAIZ                          494900.32
+ 2012          HIDALGO            MAIZ                          492015.23
+ 2020        CHIHUAHUA            MAIZ                          487972.65
+ 2011          HIDALGO            MAIZ                          484179.00
+ 2019       GUANAJUATO            MAIZ                          484029.76
+ 2014       TAMAULIPAS           SORGO                          479379.29
+ 2014          SINALOA            MAIZ                          478407.52
+ 2015        MICHOACAN    OTRO CULTIVO                          475865.00
+ 2013         GUERRERO            MAIZ                          475760.27
+ 2022 ESTADO DE MEXICO            MAIZ                          470786.28
+ 2018        MICHOACAN            MAIZ                          470533.81
+ 2009           PUEBLA            MAIZ                          461405.00
+ 2010       TAMAULIPAS           SORGO                          449980.00
+ 2013          YUCATAN            MAIZ                          444800.96
+ 2010       GUANAJUATO            MAIZ                          444295.00
+ 2023 ESTADO DE MEXICO            MAIZ                          439419.87
+ 2014           OAXACA            CAFE                          436852.15
+ 2014        ZACATECAS          FRIJOL                          434706.73
+ 2010        ZACATECAS          FRIJOL                          434614.00
+ 2014        CHIHUAHUA           AVENA                          434390.46
+ 2011          CHIAPAS           MANGO                          433892.19
+ 2019        CHIHUAHUA            MAIZ                          432413.50
+ 2010         VERACRUZ            CANA                          429563.00
+ 2012       GUANAJUATO            MAIZ                          429512.03
+ 2024       GUANAJUATO            MAIZ                          424165.53
+ 2019          NAYARIT           SORGO                          422665.97
+ 2018       TAMAULIPAS           SORGO                          415962.56
+ 2014          YUCATAN            MAIZ                          414971.09
+ 2009        CHIHUAHUA           AVENA                          411806.00
+ 2013       GUANAJUATO           SORGO                          409028.15
+ 2011       GUANAJUATO            MAIZ                          405429.84
+ 2020 ESTADO DE MEXICO            MAIZ                          403609.81
+ 2019  SAN LUIS POTOSI        PRADERAS                          400484.00
+ 2018  SAN LUIS POTOSI        PRADERAS                          400484.00
+ 2012          SINALOA            MAIZ                          399118.96
+ 2014          SINALOA           SORGO                          397942.90
+ 2010           OAXACA            MAIZ                          395434.00
+ 2013           OAXACA            CAFE                          389280.15
+ 2016        MICHOACAN            MAIZ                          386710.15
+ 2008          JALISCO            MAIZ                          386188.00
+ 2009          JALISCO            MAIZ                          385662.00
+ 2010          DURANGO            MAIZ                          385238.00
+ 2017          NAYARIT           ARROZ                          384860.31
+ 2013          DURANGO          FRIJOL                          382902.64
+ 2011        ZACATECAS            MAIZ                          382399.00
+ 2010          JALISCO        AGUACATE                          380548.00
+ 2016          CHIAPAS            CAFE                          379234.66
+ 2015          CHIAPAS            CAFE                          373561.59
+ 2017          CHIAPAS            CAFE                          372806.59
+ 2013         VERACRUZ            CAFE                          370534.83
+ 2019           PUEBLA            MAIZ                          368791.98
+ 2021 ESTADO DE MEXICO            MAIZ                          368161.87
+ 2014          DURANGO AVENA FORRAJERA                          367184.34
+ 2016          SINALOA            MAIZ                          366003.01
+ 2019       TAMAULIPAS           SORGO                          365789.24
+ 2014       GUANAJUATO           SORGO                          364876.68
+ 2018          CHIAPAS            CAFE                          364556.15
+ 2019          CHIAPAS            CAFE                          361942.17
+ 2020         GUERRERO            MAIZ                          359246.30
+ 2012           OAXACA            CAFE                          358079.00
+ 2015          SINALOA            MAIZ                          356101.88
+ 2011         CAMPECHE            MAIZ                          354381.25
+ 2018       GUANAJUATO            MAIZ                          352997.74
+ 2009       TAMAULIPAS           SORGO                          349490.00
+ 2017       TAMAULIPAS           SORGO                          345246.31
+ 2020         VERACRUZ            MAIZ                          343301.08
+ 2013        ZACATECAS          FRIJOL                          332056.59
+ 2022       GUANAJUATO            MAIZ                          331508.03
+ 2021       GUANAJUATO            MAIZ                          330178.60
+ 2017        MICHOACAN            MAIZ                          326784.07
+ 2017       GUANAJUATO            MAIZ                          325470.83
+ 2013  SAN LUIS POTOSI            MAIZ                          320489.75
+ 2013        CHIHUAHUA           AVENA                          319899.46
+ 2020          HIDALGO            MAIZ                          318374.14
+ 2018         VERACRUZ            CANA                          313755.56
+ 2019       TAMAULIPAS            CANA                          311560.47
+ 2015       TAMAULIPAS           SORGO                          310540.84
+ 2014        MICHOACAN           SORGO                          310362.51
+ 2015          NAYARIT            MAIZ                          310244.75
+ 2011          SINALOA            MAIZ                          309805.12
+ 2009         GUERRERO            MAIZ                          305945.00
+ 2022          HIDALGO            MAIZ                          305685.21
+ 2017          SINALOA            MAIZ                          305075.56
+ 2015        MICHOACAN            MAIZ                          302185.58
+ 2016        CHIHUAHUA            MAIZ                          301466.56
+ 2008           OAXACA            MAIZ                          301258.00
+ 2013         CAMPECHE            MAIZ                          300217.40
+ 2012          YUCATAN            MAIZ                          300146.15
+ 2018  SAN LUIS POTOSI            MAIZ                          299950.69
+ 2023         VERACRUZ            MAIZ                          299759.95
+ 2011          YUCATAN            MAIZ                          297814.00
+ 2010         GUERRERO       AVENA EBO                          297545.00
+ 2011         GUERRERO       AVENA EBO                          296945.00
+ 2010  SAN LUIS POTOSI       AVENA EBO                          293610.00
+ 2018          SINALOA            MAIZ                          287969.40
+ 2009           MEXICO            MAIZ                          287447.00
+ 2008 ESTADO DE MEXICO            MAIZ                          287445.00
+ 2014           SONORA           TRIGO                          287258.94
+ 2023          SINALOA            MAIZ                          286854.64
+ 2022          SINALOA            MAIZ                          286279.67
+ 2012       TAMAULIPAS           SORGO                          285464.51
+ 2013     QUINTANA ROO            MAIZ                          284912.00
+ 2016       TAMAULIPAS           SORGO                          284536.44
+ 2024          SINALOA            MAIZ                          283868.92
+ 2016        MICHOACAN    OTRO CULTIVO                          283580.81
+ 2020       GUANAJUATO            MAIZ                          283231.04
+ 2017  SAN LUIS POTOSI            MAIZ                          282869.50
+ 2011  SAN LUIS POTOSI            MAIZ                          282134.31
+ 2012          CHIAPAS           MANGO                          280840.87
+ 2015           OAXACA            CAFE                          280505.91
+ 2012  SAN LUIS POTOSI            MAIZ                          279070.31
+ 2011 ESTADO DE MEXICO            MAIZ                          278899.00
+ 2016           OAXACA            CAFE                          277759.36
+ 2020  SAN LUIS POTOSI            MAIZ                          277216.07
+ 2017           OAXACA            CAFE                          277151.69
+ 2019           OAXACA            CAFE                          277071.00
+ 2009        MICHOACAN            MAIZ                          277071.00
+ 2018           OAXACA            CAFE                          277059.24
+ 2010     QUINTANA ROO            MAIZ                          276876.00
+ 2018       TAMAULIPAS            CANA                          276815.34
+ 2008        MICHOACAN            MAIZ                          276558.00
+ 2010         GUERRERO            MAIZ                          275823.00
+ 2009          DURANGO          FRIJOL                          274621.00
+ 2013  SAN LUIS POTOSI            CANA                          273388.73
+ 2016  SAN LUIS POTOSI          FRIJOL                          272948.00
+ 2017  SAN LUIS POTOSI          FRIJOL                          272947.55
+ 2021         VERACRUZ            MAIZ                          272107.15
+ 2013           SONORA           TRIGO                          270972.24
+ 2021          SINALOA            MAIZ                          270702.43
+ 2019          SINALOA            MAIZ                          270303.62
+ 2021          HIDALGO            MAIZ                          269699.55
+ 2018          HIDALGO            MAIZ                          269437.32
+ 2017          HIDALGO            MAIZ                          269101.61
+ 2019          HIDALGO            MAIZ                          269093.24
+ 2016          HIDALGO            MAIZ                          267688.43
+ 2014          CHIAPAS          FRIJOL                          267177.00
+ 2018       GUANAJUATO    OTRO CULTIVO                          266961.00
+ 2012         CAMPECHE            MAIZ                          263623.25
+ 2010        MICHOACAN            MAIZ                          261907.00
+ 2016         VERACRUZ            CANA                          260989.26
+ 2020           OAXACA            MAIZ                          260591.03
+ 2009        ZACATECAS            MAIZ                          259529.00
+ 2019         VERACRUZ            CANA                          258038.27
+ 2008        ZACATECAS            MAIZ                          257457.00
+ 2013        MICHOACAN           SORGO                          256376.30
+ 2014        MICHOACAN        AGUACATE                          255962.98
+ 2011        MICHOACAN            MAIZ                          254610.84
+ 2015          HIDALGO            MAIZ                          253944.43
+ 2014         VERACRUZ            CAFE                          253366.96
+ 2020          SINALOA            MAIZ                          252195.12
+ 2015         VERACRUZ            CANA                          251119.10
+ 2011         VERACRUZ    OTRO CULTIVO                          250227.00
+ 2013         VERACRUZ         NARANJO                          250148.35
+ 2013          DURANGO            MAIZ                          249948.16
+ 2019        MICHOACAN        AGUACATE                          249838.69
+ 2015  SAN LUIS POTOSI            MAIZ                          249658.64
+ 2014  SAN LUIS POTOSI            MAIZ                          248916.86
+ 2013          CHIAPAS          FRIJOL                          248374.00
+ 2014           PUEBLA            CAFE                          245567.43
+ 2008         VERACRUZ            MAIZ                          244203.00
+ 2017        CHIHUAHUA            MAIZ                          243244.39
+ 2012        MICHOACAN            MAIZ                          242594.62
+ 2019        ZACATECAS AVENA FORRAJERA                          242045.76
+ 2018  SAN LUIS POTOSI          FRIJOL                          241173.00
+ 2008          HIDALGO            MAIZ                          239877.00
+ 2010          HIDALGO          CEBADA                          239507.00
+ 2014         TLAXCALA            MAIZ                          238888.25
+ 2019  SAN LUIS POTOSI            MAIZ                          238297.61
+ 2018        ZACATECAS          FRIJOL                          237573.81
+ 2008         GUERRERO            MAIZ                          236134.00
+ 2017         VERACRUZ            CANA                          232905.25
+ 2012  SAN LUIS POTOSI       CACAHUATE                          232162.38
+ 2013          JALISCO            CANA                          231247.81
+ 2016       GUANAJUATO    OTRO CULTIVO                          230946.71
+ 2009          YUCATAN            MAIZ                          230749.00
+ 2011          DURANGO          FRIJOL                          230600.00
+ 2015       GUANAJUATO          CEBADA                          230022.54
+ 2010          YUCATAN            MAIZ                          225257.00
+ 2010          CHIAPAS           MANGO                          219624.00
+ 2014           OAXACA            CANA                          218774.53
+ 2020       TAMAULIPAS            CANA                          218204.30
+ 2010           MEXICO            MAIZ                          218191.00
+ 2021        MICHOACAN            MAIZ                          218145.41
+ 2022        MICHOACAN            MAIZ                          218029.58
+ 2018       NUEVO LEON            MAIZ                          217316.06
+ 2019       NUEVO LEON            MAIZ                          216812.82
+ 2009          HIDALGO          CEBADA                          215681.00
+ 2018          NAYARIT           SORGO                          215118.10
+ 2009         VERACRUZ            CANA                          213506.00
+ 2017       TAMAULIPAS            MAIZ                          212323.45
+ 2018          DURANGO          FRIJOL                          211753.49
+ 2021          TABASCO            MAIZ                          211481.56
+ 2021          SINALOA          FRIJOL                          211441.86
+ 2014         VERACRUZ         NARANJO                          211255.56
+ 2010         CAMPECHE            MAIZ                          209199.00
+ 2024       GUANAJUATO          CEBADA                          209107.12
+ 2012          CHIAPAS            CAFE                          208710.94
+ 2013   AGUASCALIENTES            MAIZ                          206772.82
+ 2008           PUEBLA            MAIZ                          206570.00
+ 2013        CHIHUAHUA            MAIZ                          206524.80
+ 2019           COLIMA        LIMONERO                          206014.40
+ 2018        MICHOACAN        AGUACATE                          205532.06
+ 2017          DURANGO          FRIJOL                          203007.73
+ 2022          TABASCO            MAIZ                          202980.03
+ 2016          NAYARIT           ARROZ                          201938.01
+ 2014         CAMPECHE            MAIZ                          201629.30
+ 2024         TLAXCALA            MAIZ                          201525.22
+ 2016          DURANGO          FRIJOL                          200064.00
+
+Causas de siniestro, Maíz dulce Sinaloa 2015 (superficie siniestrada en ha):
+                                           SUPERFICIE SINIESTRADA\n(HECTÁREAS)  MONTO PAGADO
+CAUSA DEL SINIESTRO                                                                         
+Bajas temperaturas                                                       10.00          0.00
+Granizo                                                                  20.00          0.00
+Heladas                                                                 104.06     782661.55
+Huracán, Ciclón, Tornado, Vientos Fuertes                           3809472.00      49942.76
+Plagas y/o depredadores                                                   7.00          0.00
