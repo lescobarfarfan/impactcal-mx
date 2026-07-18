@@ -32,6 +32,10 @@ re-verified — do not cite in the manuscript until checked (tracked in `OPEN_QU
 
 - **`[GelmanHill2007]`** — Gelman, A., & Hill, J. (2007). *Data Analysis Using Regression and Multilevel/Hierarchical Models.* Cambridge University Press. — Backs `CAL-BAYES-01/03` (partial pooling).
 
+## 3b. Monetary data (target side)
+
+- **`[BanxicoFIX2024]`** — Banco de México (2025). *Informe Anual 2024 — compilación de cuadros: Tipos de cambio representativos* (FIX, promedio del periodo: 2022 = 20.1274, 2023 = 17.7587, 2024 = 18.3049 MXN/USD). banxico.org.mx/TablasWeb/informe-anual/compilacion-2024 — Verified 2026-07-18 against the published table. Backs `CAL-TARGET-05` (÷FIX correction factors); same FIX series (annual average) referenced by `CAL-TARGET-03` for USD magnitude comparisons.
+
 ## 4. Software documentation (pin versions in `environment.lock.yml`)
 
 - **`[CLIMADAdocs]`** — CLIMADA v6 documentation: `climada.util.calibrate`, `TropCyclone`, `LitPop`. climada-python.readthedocs.io — Backs `CAL-BAYES-01` usage.

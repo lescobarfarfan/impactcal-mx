@@ -22,6 +22,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[2026-07-14_crosswalk-v1]] — crosswalk v1: escala física del cono 50 mm, analogía EM-DAT para la máscara de inclusión, límite de los best-tracks.
 - [[2026-07-16_hazard-surge-rf]] — hazards surge + RF congelados: relación Xu viento-marejada, descarte silencioso de petals, ISIMIP2a vs GloFAS y las ediciones del ajuste Gumbel.
 - [[2026-07-18_inspeccion-datos-qa]] — QA genérica de datos (`CAL-GEN-14`): MAD/Hampel robust z y sus umbrales, triaje de hallazgos, límites de los perfiles automáticos frente al detector de errores de unidades.
+- [[2026-07-18_cnsf-agricola-correcciones]] — correcciones agrícola (`CAL-TARGET-05`): FIX promedio Banxico y su caveat intra-año, el recuadro canónico upstream, y las validaciones SESA que el clúster ×1000 burló coherentemente.
 
 ## Canon shortcuts
 [[DECISIONS]] · [[DATA_CONTRACTS]] · [[OPEN_QUESTIONS]]

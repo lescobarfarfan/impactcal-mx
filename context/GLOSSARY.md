@@ -86,6 +86,7 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | The frozen RF footprints | **haz_rf none flopros ISIMIP2a 2000-2010 celda a celda saneador NaN CaMa frequency sin significado dos artefactos** |
 | The GloFAS aux freeze | **auxiliares rf_glofas flood-maps gumbel-fit MD5 DSpace URL petals rota HTML FLOPROS ediciones 641667 726304 v4.0** |
 | The data-QA inspector | **inspeccion QA fuente nueva atipicos robustos MAD triaje error_probable razon MXN por hectarea unidades Maiz dulce cluster x1000 SINALOA mayusculas** |
+| The agrícola magnitude corrections | **correcciones agricola div1000 div FIX suma inflada doble conversion 2022 2024 tasa prima colapsada firma debil limpieza_cnsf corregida dq_correccion auditoria Banxico promedio** |
 
 ---
 
