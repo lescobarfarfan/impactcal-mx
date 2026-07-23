@@ -191,13 +191,20 @@ def main(argv: list[str] | None = None) -> int:
     from climada_petals.hazard.rf_glofas.river_flood_computation import RiverFloodInundation
 
     anios = sorted(nc_paths)
-    rf = RiverFloodInundation(data_dir=aux_dir, cache_dir=paths.root / "results" / ".rf_cache")
-    rf.flood_maps = crop_flood_maps(rf.flood_maps, bbox_desde_area(cfg["area"]))
+    bbox = bbox_desde_area(cfg["area"])
 
     # Año por año: la malla fina (≈8.7M celdas × 2 variantes) nunca se acumula, sólo su
     # reducción a centroides. Con 24 años, hacerlo de golpe pediría ~1.7 GB de rejilla viva.
+    #
+    # INSTANCIA NUEVA POR AÑO, a propósito: reutilizar una misma `RiverFloodInundation`
+    # entre llamadas sucesivas a `compute()` corrompe en silencio todos los años menos el
+    # primero (sus intermedios cacheados se filtran; verificado: 2001 pasa de 197,091 a
+    # 5,772 celdas mojadas al reusar la instancia). Los intermedios son scratch y viven en
+    # el data dir estándar de CLIMADA, no en `results/` del repo.
     por_prot: dict[str, list[tuple[np.ndarray, np.ndarray]]] = {p: [] for p in pendientes}
     for anio in anios:
+        rf = RiverFloodInundation(data_dir=aux_dir)
+        rf.flood_maps = crop_flood_maps(rf.flood_maps, bbox)
         descarga = annual_max_discharge({anio: nc_paths[anio]})
         profundidad = rf.compute(discharge=descarga, apply_protection="both").compute()
         for prot in pendientes:
