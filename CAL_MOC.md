@@ -13,6 +13,8 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[crosswalk-v1-hazard-side]] — crosswalk v1 (`CAL-XWALK-01/02`): huellas estatales, cono de lluvia 50 mm, desambiguación por huella; cola v0 68→17, 123/220 mixtas resueltas.
 - [[hazard-surge-generation]] — hazard marejada congelado (`CAL-SURGE-01/02`): `haz_surge.h5`, 79 eventos con intensidad; caveat costero del DEM cerrado (bbox + fillnodata, 251→0 nodata).
 - [[hazard-rf-isimip]] — huellas fluviales ISIMIP2a congeladas (`CAL-RF-02`): `haz_rf_{none,flopros}.h5` 2000–2010; insumos estáticos GloFAS congelados (`OQ-CAL-17` queda solo en cómputo).
+- [[hazard-rf-glofas]] — panel fluvial GloFAS 2000–2023 (`CAL-RF-03/04`, cierra `OQ-CAL-17`): edición Gumbel forzada por la malla v4.0, cache contaminado entre años, agregación 30as→150as.
+- [[target-rutaB-2000-2023]] — CENAPRED extendido y tabla objetivo ruta B (`CAL-TARGET-06`, `DC-CAL-TARGET-2`): consolidados reproducidos byte a byte, 2024 fuera de panel, crosswalk v1.1.
 
 ## Reading logs
 - [[2026-07-12_crosswalk-v0-cenapred]] — crosswalk v0 (loss-side) + frozen CENAPRED/IBTrACS ingestion.
@@ -23,6 +25,7 @@ The hub for all working notes. Every new `notes/*` note gets linked here (`/new-
 - [[2026-07-16_hazard-surge-rf]] — hazards surge + RF congelados: relación Xu viento-marejada, descarte silencioso de petals, ISIMIP2a vs GloFAS y las ediciones del ajuste Gumbel.
 - [[2026-07-18_inspeccion-datos-qa]] — QA genérica de datos (`CAL-GEN-14`): MAD/Hampel robust z y sus umbrales, triaje de hallazgos, límites de los perfiles automáticos frente al detector de errores de unidades.
 - [[2026-07-18_cnsf-agricola-correcciones]] — correcciones agrícola (`CAL-TARGET-05`): FIX promedio Banxico y su caveat intra-año, el recuadro canónico upstream, y las validaciones SESA que el clúster ×1000 burló coherentemente.
+- [[2026-07-23_cenapred-extension-glofas]] — CENAPRED 2016–2023 y panel fluvial GloFAS (`CAL-TARGET-06`, `CAL-RF-03/04`): qué leer de GloFAS-ERA5 e ISIMIP2 para sostener el rechazo del empalme, la edición del ajuste Gumbel, y el límite del umbral del inspector frente a series de pérdida.
 
 ## Canon shortcuts
 [[DECISIONS]] · [[DATA_CONTRACTS]] · [[OPEN_QUESTIONS]]
