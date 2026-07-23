@@ -46,19 +46,27 @@ _FUENTE_FLOPROS = (
     "(doi:10.5194/nhess-16-1049-2016) [ref? -> REFERENCES §99]"
 )
 _FUENTE_GUMBEL = (
-    "Ajustes Gumbel precomputados de descarga GloFAS 1979-2015 (ETH Research Collection, "
-    "hdl:20.500.11850/641667, dato companion de petals rf_glofas) [ref? -> REFERENCES §99]"
+    "Ajustes Gumbel precomputados de descarga GloFAS 1979-2023 (ETH Research Collection, "
+    "hdl:20.500.11850/726304, dato companion de petals rf_glofas) [ref? -> REFERENCES §99]"
 )
 
 # La URL hardcodeada en petals 6.1.0 (research-collection viejo) hoy devuelve una página HTML;
 # bitstream resuelto vía la API DSpace del handle. Si ETH vuelve a migrar, el chequeo MD5 de
-# abajo falla en voz alta y esta URL se re-resuelve. Existe una edición 1979-2023
-# (hdl:20.500.11850/726304); la consistencia versión-fit vs descarga v4.0 se decide en OQ-CAL-17.
+# abajo falla en voz alta y esta URL se re-resuelve.
+#
+# EDICIÓN 1979-2023, no la 1979-2015 que referencia petals (OQ-CAL-17c, decidido con datos):
+# el fit 1979-2015 vive en la malla GloFAS v3 de 0.1° y `transform_ops.return_period` reindexa
+# el fit sobre las coordenadas de la descarga con tolerancia 1e-3° y `assert_no_fill_value`.
+# Nuestra descarga congelada es GloFAS-ERA5 **v4.0 a 0.05°** (CAL-RF-03), así que el fit de
+# 0.1° falla en voz alta ("Reindexing 'loc' to 'dis24' exceeds tolerance"). El fit 1979-2023
+# está en la malla v4.0 de 0.05° (101 MB vs 10 MB = 4× celdas) y es además el consistente en
+# versión con la descarga.
 GUMBEL_FIT_URL = (
     "https://www.research-collection.ethz.ch/server/api/core/bitstreams/"
-    "04254cb9-5816-417c-97f7-683d4ee90285/content"
+    "ee5a1594-fd1c-490b-9e78-710c4bdd8709/content"
 )
-GUMBEL_FIT_MD5 = "859e96677fd03093367db51d979bb11d"
+GUMBEL_FIT_MD5 = "b18e8839e07acbc69ff8e8c26e0c7015"
+GUMBEL_FIT_HANDLE = "20.500.11850/726304"
 
 
 def download_aux(dest_dir: Path, *, force: bool = False) -> list[Path]:
@@ -86,15 +94,16 @@ def download_aux(dest_dir: Path, *, force: bool = False) -> list[Path]:
             raise RuntimeError(
                 f"gumbel-fit.nc descargado no coincide con el MD5 del repositorio ETH "
                 f"({md5} != {GUMBEL_FIT_MD5}): ¿URL rota otra vez? Re-resolver vía la API "
-                "DSpace del handle 20.500.11850/641667."
+                f"DSpace del handle {GUMBEL_FIT_HANDLE}."
             )
         gumbel_nc.write_bytes(data)
         write_provenance(
             gumbel_nc,
             source=_FUENTE_GUMBEL,
             url=GUMBEL_FIT_URL,
-            handle="20.500.11850/641667",
+            handle=GUMBEL_FIT_HANDLE,
             md5_repositorio=GUMBEL_FIT_MD5,
+            edicion="1979-2023 (malla v4.0 0.05°, consistente con la descarga; OQ-CAL-17c)",
         )
     out.append(gumbel_nc)
 
