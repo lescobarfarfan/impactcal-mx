@@ -54,11 +54,13 @@ Bulk data outside the repo? `export IMPACTCAL_DATA_ROOT=/path/to/data` (see `CAL
 
 ## Status & next steps
 
-Sequence (master doc §10): **1. crosswalk ✅ v1** (hazard-side, `CAL-XWALK-03/04`) →
-**2. timestep ✅ 0.5 h** (`CAL-WIND-02`, [[timestep-convergence-test]]) → **hazards ✅ frozen**
-(four perils on the shared grid, `DC-CAL-HAZ-1`; RF gap 2011–2015 = GloFAS compute,
-`OQ-CAL-17`) → **3. exposures ✅** (`CAL-EXP-04`) → **4. target tables** (← current; source
-frozen, `CAL-TARGET-04`) → 5. national null model (`climada.util.calibrate`) →
+Sequence (master doc §10): **1. crosswalk ✅ v1.1** (hazard-side, panel 2000–2023,
+`CAL-XWALK-03/04`) → **2. timestep ✅ 0.5 h** (`CAL-WIND-02`, [[timestep-convergence-test]]) →
+**hazards ✅ frozen, sin huecos** (four perils on the shared grid, `DC-CAL-HAZ-1`; fluvial =
+GloFAS 2000–2023, [[hazard-rf-glofas]]) → **3. exposures ✅** (`CAL-EXP-04`) →
+**4. target tables ✅ ruta B** (`perdidas_totales_anual.csv`, 750 filas 2000–2023,
+[[target-rutaB-2000-2023]]; ruta A pendiente del gate CNSF hidro, `OQ-CAL-11`) →
+**5. national null model ← current**, bloqueado por la deflactación INPC (`OQ-CAL-19`) →
 6. precomputed surfaces → PyMC hierarchical (wind) → 7. multi-peril joint → 8. fluvial →
 9. validation → export.
 

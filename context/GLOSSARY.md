@@ -42,10 +42,12 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 - **INPC** — Índice Nacional de Precios al Consumidor (INEGI); the deflator (`CAL-TARGET-03`).
 - **Marco Geoestadístico** — INEGI state polygons; `cve_ent` 2-digit key (`DC-CONV-5`).
 - **ISIMIP / CaMa-Flood** — inter-sectoral impact model project / global flood model; source of RF NetCDFs. **ISIMIP2a** = observed-forcing runs (calibration input, 1971–2010); **ISIMIP2b** = GCM-forced scenario runs (prospective use only, `CAL-RF-02`).
-- **GloFAS** — Global Flood Awareness System; GloFAS-ERA5 daily discharge reanalysis (1979–present) covers panel years 2011–2015 (`CAL-RF-03`).
+- **GloFAS** — Global Flood Awareness System; GloFAS-ERA5 daily discharge reanalysis (1979–present). Cubre **todo el panel 2000–2023** y es la única metodología fluvial de la verosimilitud (`CAL-RF-03/04`).
 - **EWDS** — CEMS Early Warning Data Store (ewds.climate.copernicus.eu); serves the `cems-glofas-*` datasets (migrated from the CDS; same ECMWF token, own licences incl. CEMS-FLOODS).
 - **FLOPROS** — global database of flood protection standards; the `flopros` protection variant of ISIMIP2a/`rf_glofas` footprints (`OQ-CAL-16`).
-- **`rf_glofas`** — petals module turning GloFAS discharge into flood footprints (annual max → Gumbel return period → JRC hazard-map interpolation → FLOPROS protection); serves RF 2011–2015 (`OQ-CAL-17`). Static inputs frozen in `data/glofas/auxiliares/`.
+- **`rf_glofas`** — petals module turning GloFAS discharge into flood footprints (annual max → Gumbel return period → JRC hazard-map interpolation → FLOPROS protection); sirve **todo el bloque RF 2000–2023** (`CAL-RF-03/04`). Static inputs frozen in `data/glofas/auxiliares/`.
+- **Escalón metodológico** — el salto de nivel que aparecería en la serie objetivo al empalmar dos metodologías de hazard distintas en un mismo panel; la calibración no puede distinguirlo de un cambio real de vulnerabilidad y lo absorbe el parámetro libre. Motivo de `CAL-RF-04` (GloFAS 2.44× ISIMIP2a).
+- **Consolidados CENAPRED (cobertura)** — los cuatro consolidados congelados cubren **2000–2024**; el panel de calibración se corta en 2023 porque 2024 sólo tiene resumen ejecutivo (`CAL-TARGET-06`).
 - **`_procedencia.json`** — per-artifact provenance sidecar (`CAL-GEN-02`).
 - **Consolidados CENAPRED** — the four frozen outputs of the climateCCR pipeline (panel año×estado×peril, eventos, multiestado, catálogo); the CENAPRED interface of this repo (`CAL-TARGET-04`), 2000–2015.
 - **`freeze_copy`** — `impactcal.infra.freeze`: idempotent copy of external inputs into `data/<fuente>/` with sha256 verification + provenance sidecar (`CAL-GEN-02/12`).
@@ -87,6 +89,10 @@ Terms, acronyms, proper nouns — one line each. Spanish identifiers verbatim (`
 | The GloFAS aux freeze | **auxiliares rf_glofas flood-maps gumbel-fit MD5 DSpace URL petals rota HTML FLOPROS ediciones 641667 726304 v4.0** |
 | The data-QA inspector | **inspeccion QA fuente nueva atipicos robustos MAD triaje error_probable razon MXN por hectarea unidades Maiz dulce cluster x1000 SINALOA mayusculas** |
 | The agrícola magnitude corrections | **correcciones agricola div1000 div FIX suma inflada doble conversion 2022 2024 tasa prima colapsada firma debil limpieza_cnsf corregida dq_correccion auditoria Banxico promedio** |
+| CENAPRED extendido 2016–2023 | **extensos capturados 2016 2023 resumen 2024 fuera de panel byte a byte consolidados reproducidos INUND bajo LLUV celda vacia no es cero cola censurada razon MDP MDD recupera FIX** |
+| The GloFAS fluvial panel | **rf_glofas panel completo 2000 2023 longitud 0-360 instancia por año cache contaminado 197091 a 5772 agregacion 30as a 150as subceldas mojadas gumbel 1979-2023 malla 0.05** |
+| Why the RF splice was rejected | **escalon metodologico 2010 2011 GloFAS 2.44x ISIMIP2a Spearman 0.62 85.8% coincidencia kappa RF absorbe traslape once años** |
+| The ruta B target table | **perdidas_totales_anual familia_peril reportada familia_xwalk atribuida fuente_publicacion extenso MXN corrientes sin deflactar 750 filas** |
 
 ---
 
