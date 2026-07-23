@@ -7,7 +7,9 @@ proyecto:
 
 periodo:
   anio_inicial: 2000        # CAL-TARGET-02: acotado por CENAPRED
-  anio_final: null          # null = último año completo disponible
+  anio_final: 2023          # CENAPRED llega a 2024, pero 2024 sólo tiene resumen ejecutivo
+                            # (5 estados en alcance, sin desglose fluvial): fuera del panel
+                            # hasta que se publique el extenso (CAL-TARGET-06)
 
 hazard:
   timestep_horas: 0.5       # CAL-WIND-02 (superseded 2026-07-12): congelado por test de convergencia
@@ -60,15 +62,21 @@ timestep_test:              # OQ-CAL-01 / CAL-WIND-02; protocolo master doc §3.
   ref_v_half: 74.7          # referencia FIJA (default Emanuel-USA de CLIMADA); solo convergencia,
                             # nunca magnitud — la función calibrada llega después (CAL-IMPF-01)
 
-glofas:                     # CAL-RF-01 fase 2: descarga diaria GloFAS-ERA5 (EWDS) para años sin ISIMIP2a
-  anios: [2011, 2012, 2013, 2014, 2015]   # el panel RF con ISIMIP2a termina en 2010
+glofas:                     # CAL-RF-01 fase 2: descarga diaria GloFAS-ERA5 (EWDS)
+  # Panel completo 2000-2023, no sólo los años sin ISIMIP2a (2011+): los años de traslape
+  # 2000-2010 son el insumo del chequeo de consistencia GloFAS↔ISIMIP2a que OQ-CAL-17 exige
+  # ANTES de mezclar segmentos en una misma verosimilitud, y permiten además una serie fluvial
+  # de metodología única sin costura en 2010/2011. Descarga idempotente por año.
+  anios: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+          2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
   system_version: version_4_0
   hydrological_model: lisflood
   product_type: consolidated
   area: [33, -118, 14, -86]               # N, W, S, E — bbox hazard México
 
 crosswalk:                  # DC-XWALK-1; reglas CAL-XWALK-01/02 — v1 lado-hazard (OQ-CAL-02)
-  version: v1.0-huellas-hazard
+  version: v1.1-huellas-hazard        # v1.1: mismo método que v1.0, panel CENAPRED 2000-2023
+                                      # (extensos 2016-2023, CAL-TARGET-06)
   umbral_lluvia_mm: 50                # cono de lluvia (OQ-CAL-02, decidido 2026-07-14): pertenencia al conjunto
                                       # afectado, no daño (P_thresh filtra aguas abajo); sensibilidad 50-150 documentada
   subtipos_ciclonicos: [CT, MT, MF]   # ciclón tropical, marea de tormenta, mar de fondo

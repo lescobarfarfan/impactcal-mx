@@ -10,8 +10,11 @@ Freezes the consolidated outputs of the climateCCR CENAPRED pipeline into
 
 The raw files (open CSV 2000-2015, EXTENSO/RESUMEN PDFs) and the scraper stay
 in the climateCCR repo; each sidecar records the absolute origin path.
-Machine-readable coverage today: **2000-2015** (structured captures of the
-extenso documents 2016+ are pending upstream — climateCCR `cenapred.md` §6bis).
+Machine-readable coverage: **2000-2024** — the open CSV 2000-2015 plus the
+structured captures of the extenso reports 2016-2023 and the resumen ejecutivo
+2024 (`data/cenapred/pdfs_procesados_2016-2024/`, CAL-TARGET-06). 2024 carries
+only resumen-level detail (5 estados en alcance) and is excluded from the
+calibration panel via `periodo.anio_final` — see `DC-CAL-TARGET-2`.
 
 CLI (Spanish flags verbatim, CAL-GEN-08)::
 
@@ -46,8 +49,11 @@ def ingest_cenapred(source_dir: Path, dest_dir: Path, *, force: bool = False) ->
             dest_dir,
             source=_FUENTE,
             force=force,
-            cobertura_anios="2000-2015",
-            nota="Capturas de extensos 2016+ pendientes en climateCCR (cenapred.md §6bis).",
+            cobertura_anios="2000-2024",
+            nota=(
+                "Extensos 2016-2023 + resumen 2024 capturados (CAL-TARGET-06); "
+                "2024 preliminar, fuera del panel de calibración."
+            ),
         )
         for nombre in CONSOLIDADOS
     ]

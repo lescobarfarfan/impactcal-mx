@@ -321,7 +321,15 @@ def build_crosswalk(
         & (eventos["subtipo"].isin(ciclonicos | fluviales))
     ].copy()
     universo["anio"] = universo["anio"].astype(int)
-    panel_max = int(universo["anio"].max())
+    # El panel termina donde CENAPRED deja de ser utilizable, no donde deja de
+    # haber filas: 2024 sólo tiene resumen ejecutivo (CAL-TARGET-06), así que
+    # `periodo.anio_final` manda cuando está fijado.
+    anio_final = config.get("periodo", {}).get("anio_final")
+    panel_max = (
+        min(int(universo["anio"].max()), int(anio_final))
+        if anio_final
+        else int(universo["anio"].max())
+    )
 
     ct = universo[universo["subtipo"] == "CT"]
     match = match_events(
@@ -411,6 +419,14 @@ def build_crosswalk(
         )
 
     xwalk = pd.DataFrame(filas).sort_values(["anio", "cve_ent"]).reset_index(drop=True)
+    # Un año-estado más allá del panel utilizable nunca debe parecer una fila normal,
+    # tenga o no pérdida reportada (2024 = sólo resumen ejecutivo, CAL-TARGET-06).
+    fuera = (xwalk["anio"] > panel_max) & ~xwalk["flag_revision"].str.contains(
+        "fuera_panel_cenapred"
+    )
+    xwalk.loc[fuera, "flag_revision"] = (
+        xwalk.loc[fuera, "flag_revision"] + ";fuera_panel_cenapred"
+    ).str.lstrip(";")
 
     resumen = {
         "n_eventos_universo": int(len(universo)),
