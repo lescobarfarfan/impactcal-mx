@@ -89,7 +89,12 @@ def impacto_por_estado(exp, haz, anios_ok: list[int], etiqueta: str) -> pd.DataF
         fila = np.asarray(mat[k].todense()).ravel()
         for c in np.unique(cve):
             filas.append(
-                {"anio": anio, "cve_ent": c, "metodo": etiqueta, "perdida": float(fila[cve == c].sum())}
+                {
+                    "anio": anio,
+                    "cve_ent": c,
+                    "metodo": etiqueta,
+                    "perdida": float(fila[cve == c].sum()),
+                }
             )
     return pd.DataFrame(filas)
 
@@ -122,7 +127,8 @@ def main() -> int:
     ).reset_index()
     ancho = ancho[(ancho["isimip2a"] > 0) | (ancho["glofas"] > 0)]
     print(f"\n=== impacto modelado: {len(ancho)} pares estado×año con daño en algún método ===")
-    print(f"total isimip2a: {ancho['isimip2a'].sum():.3e}   total glofas: {ancho['glofas'].sum():.3e}")
+    tot_i, tot_g = ancho["isimip2a"].sum(), ancho["glofas"].sum()
+    print(f"total isimip2a: {tot_i:.3e}   total glofas: {tot_g:.3e}")
     print(f"razón glofas/isimip2a: {ancho['glofas'].sum()/max(ancho['isimip2a'].sum(),1):.3f}")
     print(f"correlación Pearson : {ancho['isimip2a'].corr(ancho['glofas']):.3f}")
     print(f"correlación Spearman: {ancho['isimip2a'].corr(ancho['glofas'], method='spearman'):.3f}")
@@ -130,7 +136,10 @@ def main() -> int:
     print(f"pares con daño en AMBOS: {len(ambos)} ({100*len(ambos)/len(ancho):.1f}%)")
     if len(ambos):
         lr = np.log10(ambos["glofas"] / ambos["isimip2a"])
-        print(f"log10(glofas/isimip2a): mediana {lr.median():.2f}  p10 {lr.quantile(.1):.2f}  p90 {lr.quantile(.9):.2f}")
+        print(
+            f"log10(glofas/isimip2a): mediana {lr.median():.2f}  "
+            f"p10 {lr.quantile(.1):.2f}  p90 {lr.quantile(.9):.2f}"
+        )
     ancho.to_csv(SALIDA / "impacto_comparado_ancho.csv", index=False)
     print(f"\nsalidas -> {SALIDA}")
     return 0
